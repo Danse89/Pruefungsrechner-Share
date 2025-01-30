@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 public class SeitenController {
-    @GetMapping("/login")
+    @GetMapping("/")
     public String login(){
         return "login";
     }
