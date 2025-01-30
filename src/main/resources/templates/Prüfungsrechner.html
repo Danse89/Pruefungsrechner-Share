@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chatseite</title>
+    <title>Prüfungsrechner</title>
     <style>
-
         * {
             margin: 0;
             padding: 0;
@@ -46,7 +45,6 @@
         .sidebar a:hover {
             background-color: #004080;
         }
-
         .sidebar .image-placeholder {
             height: 100px;
             background-color: #cce0ff;
@@ -82,7 +80,6 @@
         .logout:hover {
             background-color: #0055a5;
         }
-
         .header {
             font-size: 4rem;
             font-weight: bold;
@@ -90,53 +87,12 @@
             color: #003366;
             text-align: center;
         }
-
-        .chat-container{
-            flex: 1;
+        .tile {
             display: flex;
-            flex-direction: column;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            padding: 1rem;
-            background-color: white;
-            overflow-y: auto;
-            margin-bottom: 1rem;
-        }
+            justify-content: center;
+            align-items: center;
 
-        .chat-message{
-            margin-bottom: 1rem;
-        }
 
-        .chat-message.user{
-            text-align: right;
-            color:#003366;
-        }
-        .input-container{
-            display: flex;
-            gap: 0.5rem;
-        }
-
-        .input-container textarea{
-            flex: 1;
-            padding: 0.5rem;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            resize: none;
-            height: 3rem;
-
-        }
-
-        .input-container button {
-            padding: 0.5rem 1rem;
-            background-color: #003366;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        .input-container button:hover{
-            background-color: #0055a5;
         }
 
     </style>
@@ -152,57 +108,12 @@
     </div>
 </div>
 <div class="main">
-    <button class="logout" onclick="logout()">Logout</button>
-    <div class="header">Chat</div>
+    <button class="logout">Logout</button>
+    <div class="header">Prüfungsrechner</div>
 
-    <div class="chat-container" id="chat-container">
+    <div class="tile">
 
     </div>
-
-    <div class="input-container">
-        <textarea id="chat-input" placeholder="Nachricht eingeben..."></textarea>
-        <button onclick="sendMessage()">Senden</button>
-    </div>
-</div>
-
-<script>
-    const chatContainer = document.getElementById('chat-container');
-    const chatInput = document.getElementById('chat-input')
-
-    function sendMessage(){
-        const message = chatInput.value.trim();
-
-        if(message){
-            const messageElement = document.createElement('div')
-            massageElement.classList.add('chat-messsage','user');
-            messageElement.textContent = massage;
-            chatContainer.appendChild(massageElement);
-
-            chatContainer.scrollTop = chatContainer.scrollHeight;
-
-            chatInput.value = '';
-         }
-        }
-        function logout(){
-            alert ('Du hast dich erfolgrecih ausgelogt')
-            window.location.href = '/login'
-        }
-
-        chatInput.addEventListener('keydown',(e) =>{
-            if (e.key === 'Enter'){
-            if (e.shiftKey){
-
-                const start = chatInput.selectionStart;
-                const end = chatInput.selectionEnd;
-                chatInput.value = chatInput.value.substring(0, start) + '\n' + chatInput.value.substring(end);
-                chatInput.selectionStart = chatInput.selectionEnd = start + 1;
-            }else{
-                e.preventDefault();
-                sendMessage();
-            }
-        }
-    });
-</script>
 
 </body>
 </html>

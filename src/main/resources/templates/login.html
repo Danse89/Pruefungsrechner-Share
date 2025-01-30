@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="de" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -41,35 +41,30 @@
         .login-button:hover {
             background-color: #0055a5;
         }
+        .register-button {
+            background-color: #28a745;
+        }
+        .register-button:hover {
+            background-color: #218838;
+        }
     </style>
 </head>
 <body>
 
 <div class="login-container">
     <h2>Login</h2>
-    <form id="loginForm">
-        <input type="text" id="username" class="input-field" placeholder="Benutzername" required>
-        <input type="password" id="password" class="input-field" placeholder="Passwort" required>
+    <p th:if="${param.error}"class="error-message">Falscher Benutzername oder Passwort!</p>
+    <form th:action="@{/login}" method="post">
+        <div clas="regestrung"></div>
+
+        <input type="text" name="username" class="input-field" placeholder="Benutzername" required>
+        <input type="password" name="password" class="input-field" placeholder="Passwort" required>
         <button type="submit" class="login-button">Anmelden</button>
     </form>
+    <button onclick="redirectToRegister()" class="button register-button">Registrieren</button>
+</div>
 </div>
 
-<script>
-    document.getElementById('loginForm').addEventListener('submit', function(event) {
-        event.preventDefault();
-
-        const username = document.getElementById('username').value;
-        const password = document.getElementById('password').value;
-
-        // Simpler Login-Check (provisorisch)
-        if (username === 'testuser' && password === 'password123') {
-            // Wenn Login erfolgreich, zur Startseite weiterleiten
-            window.location.href = 'startseite.html'; // Hier auf die tatsächliche Startseite verweisen
-        } else {
-            alert('Falscher Benutzername oder Passwort!');
-        }
-    });
-</script>
 
 </body>
 </html>
