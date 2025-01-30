@@ -143,10 +143,10 @@
 </head>
 <body>
 <div class="sidebar">
-    <a href="#">Link 1</a>
-    <a href="#">Link 2</a>
-    <a href="#">Link 3</a>
-    <a href="#">Link 4</a>
+    <a href="https://www.mischok.academy/">Mischok Academy</a>
+    <a href="https://www.mischok.de/">Mischok GmbH</a>
+    <a href="https://www.instagram.com/mischok.de/">Social Media</a>
+    <a href="https://www.mischok.de/impressum">Mischok Impressum</a>
     <div class="image-placeholder">
         <img src="Mischok.png" alt="mischoklogo" style="max-height: 100%; max-width: 100%;object-fit: contain; border-radius: 8px;">
     </div>
@@ -174,9 +174,9 @@
 
         if(message){
             const messageElement = document.createElement('div')
-            massageElement.classList.add('chat-messsage','user');
+            messageElement.classList.add('chat-messsage','user');
             messageElement.textContent = massage;
-            chatContainer.appendChild(massageElement);
+            chatContainer.appendChild(messageElement);
 
             chatContainer.scrollTop = chatContainer.scrollHeight;
 
