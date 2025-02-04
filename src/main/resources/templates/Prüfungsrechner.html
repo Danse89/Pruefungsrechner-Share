@@ -62,8 +62,10 @@
 
         .main {
             flex: 1;
+            display:flex;
+            justify-content:center;
+            align-items:center;
             padding: 2rem;
-            display: flex;
             flex-direction: column;
         }
 
@@ -96,10 +98,13 @@
 
         }
         .rechner{
-        max-width: 400px;
-        margin: auto;
+       display: flex;
+       justify-content:center;
+       width:100%;
+       height:50%;
         }
         input{
+
         width:100%;
         padding: 8px;
         margin: 5px 0;
@@ -112,17 +117,55 @@
             border-radius: 5px;
             cursor: pointer;
         }
-        .form-container{
-        background-color:#0055a5;
-        display: flex;
-        flex-direction:
-        align-items: center;
-        gap: 10px;
-        }
-        .inputRow{
-        display:flex;
-        gap: 10px;
-        }
+        .form-container {
+    width: 50vw;
+    padding: 20px;
+    height:30vh;
+    background-color: #0055a5;
+    border-radius: 10px;
+    display:flex;
+    flex-direction:column;
+    align-items: center;
+    gap: 15px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+        inputRow {
+    display: flex;
+    justify-content: center;
+
+}
+        .field {
+    width: 200px;
+    height: 60px;
+    padding: 8px;
+    border: none;
+    border-radius: 8px;
+    background-color: #004080;
+    color: white;
+    text-align: center;
+    font-size: 16px;
+    margin: 0 14px;
+}
+        .field::placeholder {
+    color: #cce0ff;
+    opacity: 0.8;
+}
+        .berechnebutton {
+    padding: 10px 20px;
+    background-color: #003366;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.berechnebutton:hover {
+    background-color: #0055a5;
+    transform: scale(1.05);
+}
+
 
     </style>
 </head>
@@ -133,33 +176,39 @@
     <a href="https://www.instagram.com/mischok.de/">Social Media</a>
     <a href="https://www.mischok.de/impressum">Mischok Impressum</a>
     <div class="image-placeholder">
-        <img src="Mischok.png" alt="mischoklogo" style="max-height: 100%; max-width: 100%;object-fit: contain; border-radius: 8px;">
+        <img img="Mischok.png" alt="mischoklogo"
+             style="max-height: 100%; max-width: 100%;object-fit: contain; border-radius: 8px;">
     </div>
 </div>
 <div class="main">
-    <button class="logout">Logout</button>
+    <form class="logout" th:action="@{/logout}" method="post">
+    <button class="logout" type="submit">Logout</button>
+    </form>
     <div class="header">Prüfungsrechner</div>
 
     <div class="tile">
 
     </div>
-<div class="rechner" >
-<h2>Prüfungsrechner</h2>
-<form action="/rechner/calculate" method="post" class="form-container">
-    <div class="inputRow">
-    <input type="number" name="punktzahl1" placeholder="Prüfung 1" required>
-    <input type="number" name="punktzahl2" placeholder="Prüfung 2" required>
-    <input type="number" name="punktzahl3" placeholder="Prüfung 3" required>
+    <div class="rechner">
+        <form action="/rechner/calculate" method="post" class="form-container">
+            <div class="inputRow">
+                <input class="field" type="number" name="punktzahl1" placeholder="Prüfung 1" min="0" max="100" required>
+                <input class="field" type="number" name="punktzahl2" placeholder="Prüfung 2" min="0" max="100" required>
+                <input class="field" type="number" name="punktzahl3" placeholder="Prüfung 3" min="0" max="100" required>
+            </div>
+            <div class="inputRow">
+                <input class="field" type="number" name="punktzahl4" placeholder="Prüfung 4" min="0" max="100" required>
+                <input class="field" type="number" name="punktzahl5" placeholder="Projektarbeit " min="0" max="100"
+                       required>
+                <input class="field" type="number" name="punktzahl6" placeholder="Fachgespräch " min="0" max="100"
+                       required>
+            </div>
+            <button class="berechnebutton" type="submit">Berechnen</button>
+        </form>
     </div>
-    <div class="inputRow">
-    <input type="number" name="punktzahl4" placeholder="Prüfung 4" required>
-    <input type="number" name="punktzahl5" placeholder="Projektarbeit " required>
-    <input type="number" name="punktzahl6" placeholder="Fachgespräch " required>
-    </div>
-    <button class="berechnebutton" type="submit">Berechnen</button>
-</form>
-    <h3>Ergebnis: <span th:text="${result}"></span></h3>
-</div>
+        <h3>Ergebnis: <span th:text="${result}"></span></h3>
+
+
 </div>
 </body>
 </html>
