@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,6 +13,7 @@
         }
 
         body {
+        font-family:Arial, sans-serif; text-align:center;
             display: flex;
             height: 100vh;
             background-color: #f4f4f4;
@@ -94,6 +95,34 @@
 
 
         }
+        .rechner{
+        max-width: 400px;
+        margin: auto;
+        }
+        input{
+        width:100%;
+        padding: 8px;
+        margin: 5px 0;
+        }
+        .berechnebutton{
+        padding: 0.5rem 1rem;
+            background-color: #003366;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .form-container{
+        background-color:#0055a5;
+        display: flex;
+        flex-direction:
+        align-items: center;
+        gap: 10px;
+        }
+        .inputRow{
+        display:flex;
+        gap: 10px;
+        }
 
     </style>
 </head>
@@ -114,6 +143,23 @@
     <div class="tile">
 
     </div>
-
+<div class="rechner" >
+<h2>Prüfungsrechner</h2>
+<form action="/rechner/calculate" method="post" class="form-container">
+    <div class="inputRow">
+    <input type="number" name="punktzahl1" placeholder="Prüfung 1" required>
+    <input type="number" name="punktzahl2" placeholder="Prüfung 2" required>
+    <input type="number" name="punktzahl3" placeholder="Prüfung 3" required>
+    </div>
+    <div class="inputRow">
+    <input type="number" name="punktzahl4" placeholder="Prüfung 4" required>
+    <input type="number" name="punktzahl5" placeholder="Projektarbeit " required>
+    <input type="number" name="punktzahl6" placeholder="Fachgespräch " required>
+    </div>
+    <button class="berechnebutton" type="submit">Berechnen</button>
+</form>
+    <h3>Ergebnis: <span th:text="${result}"></span></h3>
+</div>
+</div>
 </body>
 </html>
