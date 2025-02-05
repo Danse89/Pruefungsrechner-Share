@@ -16,14 +16,14 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-Inkrement für die ID
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String alias;
 
     @Column(unique = true, nullable = false)
     private String email;
 
     @Column(nullable = false)
-    private boolean is_verified;
+    private boolean verified;
 
     @Column(nullable = false)
     private String password;

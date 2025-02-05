@@ -17,6 +17,7 @@
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             width: 300px;
+            margin: 1rem;
         }
         .login-container h2 {
             text-align: center;
@@ -43,9 +44,21 @@
         }
         .register-button {
             background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 0.8rem;
+            border-radius: 5px;
+            width: 100%;
+            cursor: pointer;
+            margin-top: 1rem;
         }
         .register-button:hover {
             background-color: #218838;
+        }
+        .error-message {
+            color: red;
+            text-align: center;
+            margin-bottom: 1rem;
         }
     </style>
 </head>
@@ -53,26 +66,29 @@
 
 <div class="login-container">
     <h2>Login</h2>
-    <p th:if="${param.error}" class="error-message">Falscher Benutzername oder Passwort!</p>
     <form th:action="@{/login}" method="post">
-
-        <input type="text" name="username" class="input-field" placeholder="Benutzername" required>
+        <input type="text" name="username" class="input-field" placeholder="Alias" required>
         <input type="password" name="password" class="input-field" placeholder="Passwort" required>
         <button type="submit" class="login-button">Anmelden</button>
     </form>
-    <button onclick="redirectToRegister()" class="button register-button">Registrieren</button>
-</div>
-<div class="login-container">
-    <h2>Registrieren</h2>
-    <form th:action="@{/customers}" th:method="post">
-        <input type="text" name="alias" id="alias" class="input-field" placeholder="Alias" required>
-        <input type="text" name="email" id="email" class="input-field" placeholder="E-Mail" required>
-        <input type="text" name="password" id="password" class="input-field" placeholder="Passwort" required>
-        <button type="submit">Create</button>
-    </form>
-</div>
+    <button onclick="redirectToRegister()" class="register-button">Registrieren</button>
 </div>
 
+<div class="login-container">
+    <h2>Registrieren</h2>
+    <form th:action="@{/register}" method="post">
+        <input type="text" name="alias" id="alias" class="input-field" placeholder="Alias" required>
+        <input type="email" name="email" id="email" class="input-field" placeholder="E-Mail" required>
+        <input type="password" name="password" id="password" class="input-field" placeholder="Passwort" required>
+        <button type="submit" class="login-button">Erstellen</button>
+    </form>
+</div>
+
+<script>
+    function redirectToRegister() {
+        window.location.href = "/register"; // Passe die URL an, falls deine Registrierungsseite woanders ist
+    }
+</script>
 
 </body>
 </html>
