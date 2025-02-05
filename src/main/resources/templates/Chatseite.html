@@ -30,7 +30,7 @@
             border-top-left-radius: 0%;
             border-top-right-radius: 5%;
             border-bottom-left-radius: 0%;
-            border-bottom-right-radius: 5%;
+            border-bottom-right-radius: 0%;
             justify-content: space-between;
         }
 
@@ -58,7 +58,7 @@
             color: #003366;
             font-size: 0.9rem;
             font-weight: bold;
-            border: 2px dashed #0055a5;
+
         }
 
         .main {
@@ -142,67 +142,33 @@
     </style>
 </head>
 <body>
-<div class="sidebar">
-    <a href="https://www.mischok.academy/">Mischok Academy</a>
-    <a href="https://www.mischok.de/">Mischok GmbH</a>
-    <a href="https://www.instagram.com/mischok.de/">Social Media</a>
-    <a href="https://www.mischok.de/impressum">Mischok Impressum</a>
-    <div class="image-placeholder">
-        <img src="Mischok.png" alt="mischoklogo" style="max-height: 100%; max-width: 100%;object-fit: contain; border-radius: 8px;">
+<div class="sidebar"><a href="https://www.mischok.academy/">Mischok Academy</a> <a href="https://www.mischok.de/">Mischok
+    GmbH</a> <a href="https://www.instagram.com/mischok.de/">Social Media</a> <a
+        href="https://www.mischok.de/impressum">Mischok Impressum</a>
+    <div class="image-placeholder"><img th:src="@{/images/Mischok.png}" alt="mischoklogo"
+                                        style="max-height: 100%; max-width: 100%;object-fit: contain; border-radius: 8px;">
     </div>
 </div>
 <div class="main">
     <button class="logout" onclick="logout()">Logout</button>
     <div class="header">Chat</div>
-
     <div class="chat-container" id="chat-container">
-
+        <div th:each="message : ${messages}"
+             th:class="${message.sender == 'Gast' ? 'chat-message user' : 'chat-message'}"><span
+                th:text="${message.message}"></span></div>
     </div>
-
     <div class="input-container">
-        <textarea id="chat-input" placeholder="Nachricht eingeben..."></textarea>
-        <button onclick="sendMessage()">Senden</button>
+        <form th:action="@{/sendMessage}" method="post"><textarea id="chat-input" name="message"
+                                                                  placeholder="Nachricht eingeben..."></textarea>
+            <button type="submit">Senden</button>
+        </form>
     </div>
 </div>
-
 <script>
-    const chatContainer = document.getElementById('chat-container');
-    const chatInput = document.getElementById('chat-input')
-
-    function sendMessage(){
-        const message = chatInput.value.trim();
-
-        if(message){
-            const messageElement = document.createElement('div')
-            messageElement.classList.add('chat-messsage','user');
-            messageElement.textContent = massage;
-            chatContainer.appendChild(messageElement);
-
-            chatContainer.scrollTop = chatContainer.scrollHeight;
-
-            chatInput.value = '';
-         }
-        }
-        function logout(){
-            alert ('Du hast dich erfolgrecih ausgelogt')
-            window.location.href = '/login'
-        }
-
-        chatInput.addEventListener('keydown',(e) =>{
-            if (e.key === 'Enter'){
-            if (e.shiftKey){
-
-                const start = chatInput.selectionStart;
-                const end = chatInput.selectionEnd;
-                chatInput.value = chatInput.value.substring(0, start) + '\n' + chatInput.value.substring(end);
-                chatInput.selectionStart = chatInput.selectionEnd = start + 1;
-            }else{
-                e.preventDefault();
-                sendMessage();
-            }
-        }
-    });
+        function logout() {
+             alert("Du hast dich erfolgreich ausgeloggt!");
+                  window.location.href = "/login.html";    }
 </script>
-
 </body>
+</html>
 </html>
