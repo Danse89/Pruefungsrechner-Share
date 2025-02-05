@@ -1,22 +1,22 @@
 package com.example.pruefungsrechner.Controller;
 
 import com.example.pruefungsrechner.Entity.Customer;
+import com.example.pruefungsrechner.Model.CustomerModel;
 import com.example.pruefungsrechner.Repository.CustomerRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 
-@RestController
+@Controller
 @RequestMapping("/customers") // Basis-URL für alle Customer-Endpunkte
 public class CustomerController {
 
-    private final CustomerRepository customerRepository;
-
-    public CustomerController(CustomerRepository customerRepository) {
-        this.customerRepository = customerRepository;
-    }
+    @Autowired
+    private CustomerRepository customerRepository;
 
     // Alle Kunden abrufen
     @GetMapping
@@ -33,12 +33,16 @@ public class CustomerController {
 
     // Neuen Kunden erstellen
     @PostMapping
-    public ResponseEntity<Customer> createCustomer(@RequestBody Customer customer) {
-        if (customerRepository.existsByEmail(customer.getEmail())) {
-            return ResponseEntity.badRequest().build();
+    public String createCustomer(CustomerModel customer) {
+        if (customerRepository.existsByEmail(customer.email())) {
+            return "";
         }
-        Customer savedCustomer = customerRepository.save(customer);
-        return ResponseEntity.ok(savedCustomer);
+        Customer savedCustomer = customerRepository.save(Customer.builder()
+                        .alias(customer.alias())
+                        .email(customer.email())
+                        .password(customer.password())
+                .build());
+        return "";
     }
 
     // Kunden aktualisieren
@@ -48,7 +52,7 @@ public class CustomerController {
                 .map(customer -> {
                     customer.setAlias(updatedCustomer.getAlias());
                     customer.setEmail(updatedCustomer.getEmail());
-                    customer.setVerified(updatedCustomer.isVerified());
+                    customer.set_verified(updatedCustomer.is_verified());
                     customer.setPassword(updatedCustomer.getPassword());
                     customerRepository.save(customer);
                     return ResponseEntity.ok(customer);

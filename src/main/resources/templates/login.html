@@ -53,15 +53,23 @@
 
 <div class="login-container">
     <h2>Login</h2>
-    <p th:if="${param.error}"class="error-message">Falscher Benutzername oder Passwort!</p>
+    <p th:if="${param.error}" class="error-message">Falscher Benutzername oder Passwort!</p>
     <form th:action="@{/login}" method="post">
-        <div clas="regestrung"></div>
 
         <input type="text" name="username" class="input-field" placeholder="Benutzername" required>
         <input type="password" name="password" class="input-field" placeholder="Passwort" required>
         <button type="submit" class="login-button">Anmelden</button>
     </form>
     <button onclick="redirectToRegister()" class="button register-button">Registrieren</button>
+</div>
+<div class="login-container">
+    <h2>Registrieren</h2>
+    <form th:action="@{/customers}" th:method="post">
+        <input type="text" name="alias" id="alias" class="input-field" placeholder="Alias" required>
+        <input type="text" name="email" id="email" class="input-field" placeholder="E-Mail" required>
+        <input type="text" name="password" id="password" class="input-field" placeholder="Passwort" required>
+        <button type="submit">Create</button>
+    </form>
 </div>
 </div>
 

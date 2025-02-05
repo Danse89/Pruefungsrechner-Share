@@ -2,50 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Registrierung</title>
+    <title>Title</title>
 </head>
 <body>
-
-<h2>Registrieren</h2>
-<input type="text" id="alias" placeholder="Alias"><br><br>
-<input type="email" id="email" placeholder="E-Mail"><br><br>
-<input type="password" id="password" placeholder="Passwort"><br><br>
-<button id="registerButton">Registrieren</button>
-
-<script>
-    document.getElementById("registerButton").addEventListener("click", function() {
-        const alias = document.getElementById("alias").value;
-        const email = document.getElementById("email").value;
-        const password = document.getElementById("password").value;
-
-        const userData = {
-            alias: alias,
-            email: email,
-            password: password,
-            verified: false  // Standardwert
-        };
-
-        fetch("http://localhost:8080/api/customers", {  // URL deines Backends
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(userData)
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error("Fehler bei der Registrierung!");
-            }
-            return response.json();
-        })
-        .then(data => {
-            alert("Registrierung erfolgreich: " + JSON.stringify(data));
-        })
-        .catch(error => {
-            alert("Fehler: " + error.message);
-        });
-    });
-</script>
 
 </body>
 </html>

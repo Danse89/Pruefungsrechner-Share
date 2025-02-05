@@ -20,6 +20,7 @@ public class WebSecurityConfig {
         http
                 .csrf().disable() // Disable CSRF for simplicity
                 .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers("/customers").permitAll()
                         .requestMatchers("/login").permitAll()
                         .requestMatchers( "/startseite", "/css/**", "/js/**", "/images/**").permitAll() // Öffentliche Seiten
                         .requestMatchers("/Chatseite").authenticated() // Chat erfordert Login
