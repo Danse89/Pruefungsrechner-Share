@@ -165,6 +165,27 @@
     background-color: #0055a5;
     transform: scale(1.05);
 }
+.button-container{
+display:flex;
+justify-content: space-between;
+width:100%;
+padding: 1rem;
+}
+        .züruck{
+ align-self: flex-end;
+            padding: 0.5rem 1rem;
+            background-color: #003366;
+            color: white;
+            text-decoration: none;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .züruck:hover {
+            background-color: #0055a5;
+        }
+
 
 
     </style>
@@ -176,14 +197,16 @@
     <a href="https://www.instagram.com/mischok.de/">Social Media</a>
     <a href="https://www.mischok.de/impressum">Mischok Impressum</a>
     <div class="image-placeholder">
-        <img img="Mischok.png" alt="mischoklogo"
-             style="max-height: 100%; max-width: 100%;object-fit: contain; border-radius: 8px;">
+        <img th:src="@{/images/Mischok.png}" alt="mischoklogo" style="max-height: 100%; max-width: 100%;object-fit: contain; border-radius: 8px;">
     </div>
 </div>
 <div class="main">
-    <form class="logout" th:action="@{/logout}" method="post">
-    <button class="logout" type="submit">Logout</button>
-    </form>
+    <div class="button-container">
+        <button class="züruck" onclick="window.location.href='/startseite'">Startseite</button>
+        <form class="logout" th:action="@{/logout}" method="post">
+            <button class="logout" type="submit">Logout</button>
+        </form>
+    </div>
     <div class="header">Prüfungsrechner</div>
 
     <div class="tile">
@@ -192,16 +215,14 @@
     <div class="rechner">
         <form action="/rechner/calculate" method="post" class="form-container">
             <div class="inputRow">
-                <input class="field" type="number" name="punktzahl1" placeholder="Prüfung 1" min="0" max="100" required>
-                <input class="field" type="number" name="punktzahl2" placeholder="Prüfung 2" min="0" max="100" required>
-                <input class="field" type="number" name="punktzahl3" placeholder="Prüfung 3" min="0" max="100" required>
+                <input class="field" type="number" name="punktzahl1" placeholder="Prüfung 1"  required>
+                <input class="field" type="number" name="punktzahl2" placeholder="Prüfung 2"  required>
+                <input class="field" type="number" name="punktzahl3" placeholder="Prüfung 3"  required>
             </div>
             <div class="inputRow">
-                <input class="field" type="number" name="punktzahl4" placeholder="Prüfung 4" min="0" max="100" required>
-                <input class="field" type="number" name="punktzahl5" placeholder="Projektarbeit " min="0" max="100"
-                       required>
-                <input class="field" type="number" name="punktzahl6" placeholder="Fachgespräch " min="0" max="100"
-                       required>
+                <input class="field" type="number" name="punktzahl4" placeholder="Prüfung 4" required>
+                <input class="field" type="number" name="punktzahl5" placeholder="Projektarbeit " required>
+                <input class="field" type="number" name="punktzahl6" placeholder="Fachgespräch " required>
             </div>
             <button class="berechnebutton" type="submit">Berechnen</button>
         </form>
@@ -210,5 +231,16 @@
 
 
 </div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll(".field").forEach(input => {
+            input.addEventListener("input", function () {
+                if (this.value < 0) this.value = 0;
+                if (this.value > 100) this.value = 100;
+            });
+        });
+    });
+</script>
+
 </body>
 </html>
