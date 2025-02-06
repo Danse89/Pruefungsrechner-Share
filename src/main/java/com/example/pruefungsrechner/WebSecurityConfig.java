@@ -64,4 +64,15 @@ public class WebSecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return NoOpPasswordEncoder.getInstance(); // Passwörter bleiben unverschlüsselt
     }
+    @Bean
+    public UserDetailsService userDetailsService(){
+        UserDetails adminUser = User.withDefaultPasswordEncoder()
+                .username("admin")
+                .password("admin")
+                .roles("ADMIN")
+                .build();
+
+        return new InMemoryUserDetailsManager(adminUser);
+    }
+
 }
