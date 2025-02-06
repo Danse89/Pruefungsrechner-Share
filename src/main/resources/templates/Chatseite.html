@@ -108,7 +108,7 @@
         }
 
         .chat-message.user{
-            text-align: right;
+            text-align: left;
             color:#003366;
         }
         .input-container{
@@ -153,8 +153,10 @@
     <button class="logout" onclick="logout()">Logout</button>
     <div class="header">Chat</div>
     <div class="chat-container" id="chat-container">
-        <div th:each="message : ${messages}"
-             th:class="${message.sender == 'Gast' ? 'chat-message user' : 'chat-message'}"><span
+        <div th:each="message : ${messages}">
+
+            <span class="sender" th:text="${message.sender + ': '}"></span>
+            <span
                 th:text="${message.message}"></span></div>
     </div>
     <div class="input-container">
