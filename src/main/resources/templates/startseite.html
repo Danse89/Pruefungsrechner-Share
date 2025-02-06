@@ -62,7 +62,7 @@
             color: #003366;
             font-size: 0.9rem;
             font-weight: bold;
-
+            border: 2px dashed #0055a5;
         }
 
         .main {
@@ -137,6 +137,13 @@
             color: rgb(182, 184, 190);
 
         }
+       .tile-text {
+            position: absolute;
+            font-family: workbench;
+            font-size: 35px;
+            font-weight: bold;
+            color: rgb(182, 184, 190);
+        }
         .chatübershrift{
             position: absolute;
             top: 67%;
@@ -159,11 +166,21 @@
             font-weight: bold;
             color: rgb(182, 184, 190);
         }
+        .profileüberschrift {
+            top: 67%;
+            left: 73%;
+        }
 
     </style>
 </head>
 <body>
 <script>
+    function logoutUser() {
+        // Hier kannst du den Logout-Prozess starten (Session löschen, auf Login-Seite umleiten usw.)
+        alert("Sie werden ausgeloggt.");
+        window.location.href = "/logout";  // Passe die URL an dein System an
+    }
+</script>
 
 </script>
 <div class="sidebar">
@@ -176,7 +193,7 @@
     </div>
 </div>
 <div class="main">
-    <button class="logout">Logout</button>
+    <button class="logout" onclick="logoutUser()">Logout</button>
     <div class="header">Überschrift</div>
     <div class="tiles">
         <div class="tile" >
@@ -184,14 +201,17 @@
             <div><h1 class="fileserverüberschrift">FileServer</h1></div>
         </div>
         <div class="tile" onclick="window.location.href='/Prüfungsrechner'">
-            <img th:src="@{/images/Hindergrundbild.jpg}" alt="Hindergrundlogo" style="max-height: 100%; max-width: 100%; object-fit: contain; border-radius: 10px;">
-            <div><h1 class ="prüfungsrechnerüberschrift ">Prüfungsrechner</h1></div>
+            <img th:src="@{/images/Hindergrundbild.jpg}" alt="Hintergrundlogo" style="max-height: 100%; max-width: 100%; object-fit: contain; border-radius: 10px;">
+            <div class="tile-text prüfungsrechnerüberschrift">Prüfungsrechner</div>
         </div>
-        <div class="tile" onclick="window.location.href='/chatseite'">
-            <img src="/images/Chat.jpg" alt="Chat" style="max-height: 100%;max-width: 100%; object-fit: contain;border-radius: 10px;">
-            <div><h1 class="chatübershrift">Chat</h1></div>
+        <div class="tile" onclick="window.location.href='/Chatseite'">
+            <img src="/images/Chat.jpg" alt="Chat" style="max-height: 100%; max-width: 100%; object-fit: contain; border-radius: 10px;">
+            <div class="tile-text chatübershrift">Chat</div>
         </div>
-        <div class="tile">Link</div>
+        <div class="tile" onclick="window.location.href='/Profile'">
+            <img src="/images/Profile.jpg" alt="Profile" style="max-height: 100%; max-width: 100%; object-fit: contain; border-radius: 10px;">
+            <div class="tile-text profileüberschrift">Profile</div>
+        </div>
     </div>
 </div>
 

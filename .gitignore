@@ -1,0 +1,47 @@
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+
+# Compiled Java classes
+*.class
+
+# Log files
+*.log
+
+# Build directories
+/out/
+/build/
+/target/
+
+# Maven and Gradle
+/.mvn/
+/.gradle/
+!gradle/wrapper/
+
+# Dependency directories
+/lib/
+
+# Temporary files
+*.tmp
+*.swp
+*.swo
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# JAR/WAR/EAR files
+*.jar
+*.war
+*.ear
+
+# Coverage and reports
+/coverage/
+/reports/
+/test-results/
+
+# Node and frontend (if applicable)
+/node_modules/
+/.eslintcache/
+/.npm/
