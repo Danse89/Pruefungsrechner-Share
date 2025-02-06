@@ -7,7 +7,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&family=Workbench&display=swap" rel="stylesheet">
-    <style>body {       font-family: 'Roboto', sans-serif; } </style>
 
     <style>
         * {
@@ -31,9 +30,7 @@
             flex-direction: column;
             align-items: stretch;
             padding: 2rem 0;
-            border-top-left-radius: 0%;
             border-top-right-radius: 5%;
-            border-bottom-left-radius: 0%;
             border-bottom-right-radius: 5%;
             justify-content: space-between;
         }
@@ -99,7 +96,7 @@
             background-color: #e6f0ff;
             display: flex;
             justify-content: center;
-            align-items:center;
+            align-items: center;
             font-size: 1rem;
             font-weight: bold;
             border: 1px solid #003366;
@@ -108,7 +105,6 @@
             transition: transform 0.3s, background-color 0.3s;
             height: 250px;
             width: 750px;
-
             overflow: hidden;
         }
 
@@ -124,78 +120,79 @@
             color: #003366;
             text-align: center;
         }
-        .prüfungsrechnerüberschrift {
-            font-family: workbench;
+
+        .tile-text {
             position: absolute;
+            font-family: workbench;
+            font-size: 35px;
+            font-weight: bold;
+            color: rgb(182, 184, 190);
+        }
+
+        .prüfungsrechnerüberschrift {
             top: 27%;
             left: 73%;
-            transform: translate(-50%,-50%);
-            z-index: 1;
-
-            font-size: 35px;
-            font-weight: bold;
-            color: rgb(182, 184, 190);
-
         }
-        .chatübershrift{
-            position: absolute;
+
+        .chatübershrift {
             top: 67%;
             left: 29%;
-            transform: translate(-50%,-50%);
-            z-index: 1;
-            font-family: workbench;
-            font-size: 35px;
-            font-weight: bold;
-            color: rgb(182, 184, 190);
         }
-        .fileserverüberschrift{
-            position: absolute;
+
+        .fileserverüberschrift {
             top: 27%;
             left: 31%;
-            transform: translate(-50%,-50%);
-            z-index: 1;
-            font-family: workbench;
-            font-size: 35px;
-            font-weight: bold;
-            color: rgb(182, 184, 190);
+        }
+
+        .profileüberschrift {
+            top: 67%;
+            left: 73%;
         }
 
     </style>
 </head>
 <body>
-<script>
 
+<script>
+    function logoutUser() {
+        // Hier kannst du den Logout-Prozess starten (Session löschen, auf Login-Seite umleiten usw.)
+        alert("Sie werden ausgeloggt.");
+        window.location.href = "/logout";  // Passe die URL an dein System an
+    }
 </script>
+
 <div class="sidebar">
     <a href="https://www.mischok.academy/">Mischok Academy</a>
     <a href="https://www.mischok.de/">Mischok GmbH</a>
     <a href="https://www.instagram.com/mischok.de/">Social Media</a>
     <a href="https://www.mischok.de/impressum">Mischok Impressum</a>
     <div class="image-placeholder">
-        <img th:src="@{/images/Mischok.png}" alt="mischoklogo" style="max-height: 100%; max-width: 100%;object-fit: contain; border-radius: 8px;">
+        <img th:src="@{/images/Mischok.png}" alt="mischoklogo" style="max-height: 100%; max-width: 100%; object-fit: contain; border-radius: 8px;">
     </div>
 </div>
+
 <div class="main">
-    <button class="logout">Logout</button>
+    <button class="logout" onclick="logoutUser()">Logout</button>
     <div class="header">Überschrift</div>
     <div class="tiles">
-        <div class="tile" >
-            <img th:src="@{/images/FileServer.jpg}" alt="FileServer" style="max-height: 100%; max-width: 100%; object-fit: contain;border-radius: 10px ;">
-            <div><h1 class="fileserverüberschrift">FileServer</h1></div>
+        <div class="tile">
+            <img th:src="@{/images/FileServer.jpg}" alt="FileServer" style="max-height: 100%; max-width: 100%; object-fit: contain; border-radius: 10px;">
+            <div class="tile-text fileserverüberschrift">FileServer</div>
         </div>
         <div class="tile" onclick="window.location.href='/Prüfungsrechner'">
-            <img th:src="@{/images/Hindergrundbild.jpg}" alt="Hindergrundlogo" style="max-height: 100%; max-width: 100%; object-fit: contain; border-radius: 10px;">
-            <div><h1 class ="prüfungsrechnerüberschrift ">Prüfungsrechner</h1></div>
+            <img th:src="@{/images/Hindergrundbild.jpg}" alt="Hintergrundlogo" style="max-height: 100%; max-width: 100%; object-fit: contain; border-radius: 10px;">
+            <div class="tile-text prüfungsrechnerüberschrift">Prüfungsrechner</div>
         </div>
         <div class="tile" onclick="window.location.href='/Chatseite'">
-            <img src="/images/Chat.jpg" alt="Chat" style="max-height: 100%;max-width: 100%; object-fit: contain;border-radius: 10px;">
-            <div><h1 class="chatübershrift">Chat</h1></div>
+            <img src="/images/Chat.jpg" alt="Chat" style="max-height: 100%; max-width: 100%; object-fit: contain; border-radius: 10px;">
+            <div class="tile-text chatübershrift">Chat</div>
         </div>
-        <div class="tile">Link</div>
+        <div class="tile" onclick="window.location.href='/Profile'">
+            <img src="/images/Profile.jpg" alt="Profile" style="max-height: 100%; max-width: 100%; object-fit: contain; border-radius: 10px;">
+            <div class="tile-text profileüberschrift">Profile</div>
+        </div>
     </div>
 </div>
 
 </body>
 </html>
-
-
