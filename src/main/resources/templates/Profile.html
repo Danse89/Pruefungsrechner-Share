@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profil</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&family=Workbench&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      padding: 20px;
+    }
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      background: #fff;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h1 {
+      text-align: center;
+      color: #003366;
+    }
+    .info {
+      margin: 20px 0;
+      font-size: 1.2rem;
+    }
+    .password-container {
+      display: flex;
+      align-items: center;
+    }
+    .password-text {
+      font-family: monospace;
+      background: #e6f0ff;
+      padding: 10px;
+      border: 1px solid #003366;
+      border-radius: 5px;
+      transition: filter 0.3s;
+    }
+    .toggle-btn {
+      margin-left: 10px;
+      padding: 5px 10px;
+      border: none;
+      background: #003366;
+      color: #fff;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .toggle-btn:hover {
+      background: #0055a5;
+    }
+    .date {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 1.2rem;
+      color: #003366;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>Profil</h1>
+  <div class="info">
+    <strong>Angemeldeter Alias:</strong> <span id="alias">Benutzer123</span>
+  </div>
+  <div class="info">
+    <strong>Passwort (gehasht):</strong>
+    <div class="password-container">
+      <span id="hashedPassword" class="password-text">e99a18c428cb38d5f260853678922e03</span>
+      <button id="toggleBtn" class="toggle-btn" onclick="togglePassword()">Passwort anzeigen</button>
+    </div>
+  </div>
+  <div class="date">
+    Heutiges Datum: <span id="currentDate"></span>
+  </div>
+</div>
+
+<script>
+  // Umschalten der Passwort-Anzeige: Verschwommen ↔ Klartext
+  function togglePassword() {
+    var pwd = document.getElementById('hashedPassword');
+    var btn = document.getElementById('toggleBtn');
+    if (pwd.style.filter === 'blur(5px)') {
+      pwd.style.filter = 'none';
+      btn.textContent = 'Passwort verbergen';
+    } else {
+      pwd.style.filter = 'blur(5px)';
+      btn.textContent = 'Passwort anzeigen';
+    }
+  }
+
+  // Initial wird das Passwort verschwommen dargestellt
+  document.getElementById('hashedPassword').style.filter = 'blur(5px)';
+
+  // Anzeige des heutigen Datums im deutschen Format
+  var today = new Date();
+  var options = { year: 'numeric', month: 'long', day: 'numeric' };
+  var formattedDate = today.toLocaleDateString('de-DE', options);
+  document.getElementById('currentDate').textContent = formattedDate;
+</script>
+</body>
+</html>
