@@ -3,6 +3,7 @@ package com.example.pruefungsrechner.Controller;
 import com.example.pruefungsrechner.Form.MessageForm;
 import com.example.pruefungsrechner.Entity.ChatMessage;
 import com.example.pruefungsrechner.Repository.ChatMessageRepository;
+import com.example.pruefungsrechner.WebSecurityConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +17,8 @@ public class ChatController {
 
     @Autowired
     private ChatMessageRepository chatMessageRepository;
+    @Autowired
+    private WebSecurityConfig webSecurityConfig;
 
     @GetMapping("/chatseite")
     public String chat(Model model) {
@@ -28,7 +31,7 @@ public class ChatController {
     public String sendMessage(@ModelAttribute MessageForm message) {
         ChatMessage chatMessage = ChatMessage.builder()
                 .message(message.message())
-                .sender("Gast")
+                .sender(webSecurityConfig.getCurrentUser())
                 .created_at(LocalDateTime.now())
                 .build();
         chatMessageRepository.save(chatMessage);
