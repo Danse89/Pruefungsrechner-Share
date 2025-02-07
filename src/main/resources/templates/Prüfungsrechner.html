@@ -199,7 +199,7 @@ padding: 1rem;
 </div>
 <div class="main">
     <div class="button-container">
-        <button class="züruck" onclick="window.location.href='/startseite'">Startseite</button>
+        <button class="Zurück" onclick="window.location.href='/startseite'">Startseite</button>
         <form class="logout" th:action="@{/logout}" method="post">
             <button class="logout" type="submit">Logout</button>
         </form>
@@ -210,16 +210,16 @@ padding: 1rem;
 
     </div>
     <div class="rechner">
-        <form action="/rechner/calculate" method="post" class="form-container">
+        <form action="/Prüfungsrechner/calculate" method="post" class="form-container">
             <div class="inputRow">
-                <input class="field" type="number" name="punktzahl1" placeholder="Prüfung 1"  required>
-                <input class="field" type="number" name="punktzahl2" placeholder="Prüfung 2"  required>
-                <input class="field" type="number" name="punktzahl3" placeholder="Prüfung 3"  required>
+                <input class="field" type="text" name="punktzahl1" placeholder="Prüfung 1"  required>
+                <input class="field" type="text" name="punktzahl2" placeholder="Prüfung 2"  required>
+                <input class="field" type="text" name="punktzahl3" placeholder="Prüfung 3"  required>
             </div>
             <div class="inputRow">
-                <input class="field" type="number" name="punktzahl4" placeholder="Prüfung 4" required>
-                <input class="field" type="number" name="punktzahl5" placeholder="Projektarbeit " required>
-                <input class="field" type="number" name="punktzahl6" placeholder="Fachgespräch " required>
+                <input class="field" type="text" name="punktzahl4" placeholder="Prüfung 4" required>
+                <input class="field" type="text" name="punktzahl5" placeholder="Projektarbeit " required>
+                <input class="field" type="text" name="punktzahl6" placeholder="Fachgespräch " required>
             </div>
             <button class="berechnebutton" type="submit">Berechnen</button>
         </form>

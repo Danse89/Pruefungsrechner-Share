@@ -26,7 +26,7 @@ public class ChatMessage {
     private LocalDateTime created_at;
 
     @ManyToOne
-    @JoinColumn(name = "customer_id", nullable = true)
+    @JoinColumn(name = "customer_id")
     private Customer customer;
 }
 
