@@ -36,10 +36,10 @@ public class LoginController {
     }
 
     @PostMapping("/register")
-    public String register(@RequestParam String alias, @RequestParam String email, @RequestParam String password, Model model) {
+    public String register(@RequestParam String alias, @RequestParam String password, Model model) {
         System.out.println("Test");
         try {
-            customerRepository.save(Customer.builder().alias(alias).email(email).password(password).build());
+            customerRepository.save(Customer.builder().alias(alias).password(password).build());
 
             return "redirect:/login"; //pop up mit success
         } catch (Exception e) {
