@@ -13,6 +13,7 @@
 /out/
 /build/
 /target/
+/shelf/
 
 # Maven and Gradle
 /.mvn/

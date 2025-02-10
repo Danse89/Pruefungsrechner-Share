@@ -22,8 +22,12 @@ public class LoginController {
     private CustomerService customerService;
 
     @GetMapping("/")
-    public String Home() {
-        return "redirect:/login";
+    public String home(HttpSession session) {
+        // Falls der Benutzer eingeloggt ist, zur Startseite weiterleiten
+        if (session.getAttribute("user") != null) {
+            return "redirect:/startseite";
+        }
+        return "redirect:/login"; // Ansonsten zur Login-Seite
     }
 
     @GetMapping("/login")
@@ -36,23 +40,21 @@ public class LoginController {
         LoginResponse loginResponse = customerService.doesAliasExistsAndComparesPassword(alias, password);
         if (loginResponse.isCorrect()) {
             session.setAttribute("user", alias);
-            return "redirect:/startseite";
+            return "redirect:/startseite"; // Nach dem Login zur Startseite weiterleiten
         } else {
-            model.addAttribute("error", loginResponse.message()); //TODO: error anzeigen
-            return "redirect:/login";
+            model.addAttribute("error", loginResponse.message()); // Fehler anzeigen
+            return "login";
         }
     }
 
     @PostMapping("/register")
     public String register(@RequestParam String alias, @RequestParam String email, @RequestParam String password, Model model) {
-        System.out.println("Test");
         try {
             customerRepository.save(Customer.builder().alias(alias).email(email).password(password).build());
-
-            return "redirect:/login"; //pop up mit success
+            return "redirect:/login"; // Erfolgreich registriert → Weiterleitung zur Login-Seite
         } catch (Exception e) {
             model.addAttribute("error", "Invalid alias or password");
-            return "redirect:/login";
+            return "login";
         }
     }
 }
