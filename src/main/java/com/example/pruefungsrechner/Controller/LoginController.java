@@ -1,7 +1,9 @@
 package com.example.pruefungsrechner.Controller;
 
 import com.example.pruefungsrechner.Entity.Customer;
+import com.example.pruefungsrechner.Form.LoginResponse;
 import com.example.pruefungsrechner.Repository.CustomerRepository;
+import com.example.pruefungsrechner.Service.CustomerService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,6 +18,13 @@ public class LoginController {
     @Autowired
     private CustomerRepository customerRepository;
 
+    @Autowired
+    private CustomerService customerService;
+
+    @GetMapping("/")
+    public String Home() {
+        return "redirect:/login";
+    }
 
     @GetMapping("/login")
     public String login() {
@@ -24,13 +33,12 @@ public class LoginController {
 
     @PostMapping("/login")
     public String login(@RequestParam String alias, @RequestParam String password, HttpSession session, Model model) {
-        if (customerRepository.findByAlias(alias).orElseThrow().getPassword().equals(password)) {
-
+        LoginResponse loginResponse = customerService.doesAliasExistsAndComparesPassword(alias, password);
+        if (loginResponse.isCorrect()) {
             session.setAttribute("user", alias);
-
             return "redirect:/startseite";
         } else {
-            model.addAttribute("error", "Ungültige Anmeldung");
+            model.addAttribute("error", loginResponse.message()); //TODO: error anzeigen
             return "redirect:/login";
         }
     }
@@ -49,5 +57,4 @@ public class LoginController {
             return "redirect:/login";
         }
     }
-
 }
