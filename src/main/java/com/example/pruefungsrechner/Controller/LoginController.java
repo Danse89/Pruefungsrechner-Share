@@ -35,6 +35,7 @@ public class LoginController {
         }
     }
 
+
     @PostMapping("/register")
     public String register(@RequestParam String alias, @RequestParam String password, Model model) {
         System.out.println("Test");
@@ -42,6 +43,7 @@ public class LoginController {
             customerRepository.save(Customer.builder().alias(alias).password(password).build());
 
             return "redirect:/login"; //pop up mit success
+
         } catch (Exception e) {
             model.addAttribute("error", "Invalid alias or password");
             return "redirect:/login";

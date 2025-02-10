@@ -87,6 +87,41 @@
       font-size: 1.2rem;
       color: #003366;
     }
+    .edit-btn {
+      background-color: #0055a5;
+      color: white;
+      padding: 8px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 20px;
+      display: block;
+      width: 100%;
+    }
+    .edit-btn:hover {
+      background-color: #004080;
+    }
+    .password-form {
+      display: none;
+      margin-top: 20px;
+    }
+    .password-form input {
+      padding: 8px;
+      width: 100%;
+      margin-bottom: 10px;
+      border: 1px solid #003366;
+      border-radius: 5px;
+    }
+    .save-btn {
+      background-color: #28a745;
+      color: white;
+      padding: 8px 12px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .save-btn:hover {
+      background-color: #218838;
+    }
   </style>
 </head>
 <body>
@@ -106,6 +141,14 @@
       <button id="toggleBtn" class="toggle-btn" onclick="togglePassword()">Passwort anzeigen</button>
     </div>
   </div>
+  <button class="edit-btn" onclick="togglePasswordForm()">Passwort bearbeiten</button>
+
+  <!-- Passwort Bearbeitungsformular -->
+  <div id="passwordForm" class="password-form">
+    <input type="password" id="newPassword" placeholder="Neues Passwort">
+    <button class="save-btn" onclick="savePassword()">Speichern</button>
+  </div>
+
   <div class="date">
     Heutiges Datum: <span id="currentDate"></span>
   </div>
@@ -136,6 +179,21 @@
 
   function logout() {
     window.location.href = '/logout';
+  }
+
+  function togglePasswordForm() {
+    var form = document.getElementById('passwordForm');
+    form.style.display = form.style.display === 'none' || form.style.display === '' ? 'block' : 'none';
+  }
+
+  function savePassword() {
+    var newPassword = document.getElementById('newPassword').value;
+    if (newPassword) {
+      alert('Passwort wurde erfolgreich geändert!');
+      // Hier kannst du die Logik zum Speichern des neuen Passworts einfügen.
+    } else {
+      alert('Bitte gib ein Passwort ein.');
+    }
   }
 </script>
 </body>
