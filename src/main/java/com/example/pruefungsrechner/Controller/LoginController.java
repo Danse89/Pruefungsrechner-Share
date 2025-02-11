@@ -51,7 +51,9 @@ public class LoginController {
         }
     }
 
+
     @PostMapping("/register")
+
     public String register(@RequestParam String alias, @RequestParam String email, @RequestParam String password, Model model) {
         try {
 
@@ -65,6 +67,7 @@ public class LoginController {
             return "redirect:/login"; //pop up mit success
 
        } catch (Exception e) {
+
             model.addAttribute("error", "Invalid alias or password");
             return "login";
         }

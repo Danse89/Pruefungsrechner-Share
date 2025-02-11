@@ -44,6 +44,7 @@
           background-color: #004080;
         }
         .sidebar .image-placeholder {
+
           height: 100px;
           background-color: #cce0ff;
           margin: 1rem;
@@ -54,6 +55,7 @@
           color: #003366;
           font-size: 0.9rem;
           font-weight: bold;
+
         }
         .main {
           flex: 1;
@@ -202,6 +204,7 @@
 </div>
 
 <div class="main">
+
     <!-- Obere Leiste mit Logout-Button und Wetteranzeige -->
     <div class="top-controls">
         <button class="logout" onclick="logoutUser()">Logout</button>
@@ -220,16 +223,18 @@
                 <h1 class="fileserverüberschrift">FileServer</h1>
             </div>
         </div>
-        <div class="tile" onclick="window.location.href='/prüfungsrechner'">
+        <div class="tile" onclick="window.location.href='/Prüfungsrechner'">
             <img th:src="@{/images/Hindergrundbild.jpg}" alt="Hintergrundlogo" style="max-height: 100%; max-width: 100%; object-fit: contain; border-radius: 10px;">
             <div class="tile-text prüfungsrechnerüberschrift">Prüfungsrechner</div>
         </div>
-        <div class="tile" onclick="window.location.href='/chatseite'">
+        <div class="tile" onclick="window.location.href='/Chatseite'">
             <img src="/images/Chat.jpg" alt="Chat" style="max-height: 100%; max-width: 100%; object-fit: contain; border-radius: 10px;">
             <div class="tile-text chatübershrift">Chat</div>
         </div>
+
         <div class="tile" onclick="window.location.href='/profile'">
             <img th:src="@{/images/Profilbild.jpg}" alt="Profile" style="max-height: 100%; max-width: 100%; object-fit: contain; border-radius: 10px;">
+
             <div class="tile-text profileüberschrift">Profile</div>
         </div>
     </div>
