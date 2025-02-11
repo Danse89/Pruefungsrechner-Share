@@ -70,6 +70,7 @@ public class WebSecurityConfig {
         return NoOpPasswordEncoder.getInstance(); // Passwörter bleiben unverschlüsselt
     }
 
+
     public String getCurrentUser(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.getPrincipal() instanceof UserDetails){

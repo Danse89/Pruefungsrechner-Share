@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="de" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Profil</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&family=Workbench&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;600&display=swap" rel="stylesheet">
   <style>
     body {
-      font-family: Arial, sans-serif;
+      font-family: 'Jost', sans-serif;
       background-color: #f4f4f4;
       padding: 20px;
     }
@@ -20,7 +20,6 @@
       border-radius: 10px;
       padding: 20px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      position: relative;
     }
     .header {
       display: flex;
@@ -118,9 +117,20 @@
       border: none;
       border-radius: 5px;
       cursor: pointer;
+      width: 100%;
     }
     .save-btn:hover {
       background-color: #218838;
+    }
+    .error-msg {
+      color: red;
+      font-size: 0.9rem;
+      margin-top: 5px;
+    }
+    .success-msg {
+      color: green;
+      font-size: 0.9rem;
+      margin-top: 5px;
     }
   </style>
 </head>
@@ -131,22 +141,28 @@
     <button class="btn logout-btn" onclick="logout()">Logout</button>
   </div>
   <h1>Benutzerprofil</h1>
+
   <div class="info">
     <strong>Alias:</strong> <span th:text="${alias}"></span>
   </div>
+
   <div class="info">
     <strong>Passwort:</strong>
     <div class="password-container">
-      <span id="hashedPassword" class="password-text"><span th:text="${hashedPassword}"></span></span>
+      <span id="hashedPassword" class="password-text">********</span>
       <button id="toggleBtn" class="toggle-btn" onclick="togglePassword()">Passwort anzeigen</button>
     </div>
   </div>
-  <button class="edit-btn" onclick="togglePasswordForm()">Passwort bearbeiten</button>
+
+  <button class="edit-btn" onclick="togglePasswordForm()">Passwort ändern</button>
 
   <!-- Passwort Bearbeitungsformular -->
   <div id="passwordForm" class="password-form">
+    <input type="password" id="currentPassword" placeholder="Aktuelles Passwort">
     <input type="password" id="newPassword" placeholder="Neues Passwort">
-    <button class="save-btn" onclick="savePassword()">Speichern</button>
+    <input type="password" id="confirmPassword" placeholder="Neues Passwort bestätigen">
+    <button class="save-btn" onclick="changePassword()">Speichern</button>
+    <p id="message" class="error-msg"></p>
   </div>
 
   <div class="date">
@@ -158,16 +174,16 @@
   function togglePassword() {
     var pwd = document.getElementById('hashedPassword');
     var btn = document.getElementById('toggleBtn');
-    if (pwd.style.filter === 'blur(5px)') {
-      pwd.style.filter = 'none';
+    if (pwd.textContent === '********') {
+      pwd.textContent = "Sicherheitshalber versteckt";
       btn.textContent = 'Passwort verbergen';
     } else {
-      pwd.style.filter = 'blur(5px)';
+      pwd.textContent = '********';
       btn.textContent = 'Passwort anzeigen';
     }
   }
 
-  document.getElementById('hashedPassword').style.filter = 'blur(5px)';
+  document.getElementById('hashedPassword').textContent = '********';
 
   var today = new Date();
   var options = { year: 'numeric', month: 'long', day: 'numeric' };
@@ -186,13 +202,40 @@
     form.style.display = form.style.display === 'none' || form.style.display === '' ? 'block' : 'none';
   }
 
-  function savePassword() {
-    var newPassword = document.getElementById('newPassword').value;
-    if (newPassword) {
-      alert('Passwort wurde erfolgreich geändert!');
-      // Hier kannst du die Logik zum Speichern des neuen Passworts einfügen.
+  async function changePassword() {
+    const currentPassword = document.getElementById('currentPassword').value;
+    const newPassword = document.getElementById('newPassword').value;
+    const confirmPassword = document.getElementById('confirmPassword').value;
+    const messageElement = document.getElementById('message');
+
+    if (!currentPassword || !newPassword || !confirmPassword) {
+      messageElement.textContent = 'Bitte alle Felder ausfüllen.';
+      return;
+    }
+
+    if (newPassword !== confirmPassword) {
+      messageElement.textContent = 'Die neuen Passwörter stimmen nicht überein.';
+      return;
+    }
+
+    const response = await fetch('/api/profile/change-password', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ currentPassword, newPassword })
+    });
+
+    const result = await response.json();
+
+    if (response.ok) {
+      messageElement.textContent = result.message;
+      messageElement.classList.remove('error-msg');
+      messageElement.classList.add('success-msg');
     } else {
-      alert('Bitte gib ein Passwort ein.');
+      messageElement.textContent = result.message;
+      messageElement.classList.remove('success-msg');
+      messageElement.classList.add('error-msg');
     }
   }
 </script>
