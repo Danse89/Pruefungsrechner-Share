@@ -15,10 +15,10 @@ public class ChatController {
     @Autowired
     private ChatMessageService chatMessageService;
 
-    @GetMapping("/chatseite")
+    @GetMapping("/Chatseite")
     public String chat(Model model) {
         model.addAttribute("messages", chatMessageService.getAllChatMessages());
-        return "Chatseite.html";  // Stelle sicher, dass der Name mit der Template-Datei übereinstimmt (z.B. chat.html oder Chatseite.html)
+        return "Chatseite";  // Stelle sicher, dass der Name mit der Template-Datei übereinstimmt (z.B. chat.html oder Chatseite.html)
     }
 
     @PostMapping("/sendMessage")

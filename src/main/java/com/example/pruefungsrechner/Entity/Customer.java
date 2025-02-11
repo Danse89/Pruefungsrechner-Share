@@ -22,6 +22,9 @@ public class Customer {
     @Column(nullable = false, unique = true)
     private String alias;
 
+    @Column(unique = true, nullable = false)
+    private String email;
+
 
     @Column(nullable = false)
     private boolean verified;

@@ -16,7 +16,7 @@ public class PrüfungsrechnerController {
 
     @GetMapping()
     public String Prüfungsrechner() {
-        return "Prüfungsrechner";
+        return "prüfungsrechner";
     }
 
     @PostMapping("/calculate")
@@ -35,7 +35,7 @@ public class PrüfungsrechnerController {
                 : "Nicht bestanden %s (Mindestens eine Teilprüfung unter 50%%)".formatted(ergebnis.getEndnote());
 
         model.addAttribute("result", result);
-        return "Prüfungsrechner";
+        return "prüfungsrechner";
     }
 }
 

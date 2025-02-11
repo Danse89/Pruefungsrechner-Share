@@ -27,7 +27,6 @@ public class WebSecurityConfig {
     private CustomerRepository customerRepository;
 
 
-
     @Bean
     public UserDetailsService userDetailsService() {
         return alias -> customerRepository.findByAlias(alias)
@@ -39,5 +38,14 @@ public class WebSecurityConfig {
                 .orElseThrow(() -> new RuntimeException("User not found"));
     }
 
+
+
+    public String getCurrentUser(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetails){
+            return ((UserDetails) authentication.getPrincipal()).getUsername();
+        }
+        return "Gast";
+    }
 
 }
