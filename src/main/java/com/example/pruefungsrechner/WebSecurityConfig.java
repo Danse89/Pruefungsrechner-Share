@@ -26,33 +26,7 @@ public class WebSecurityConfig {
     @Autowired
     private CustomerRepository customerRepository;
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http
-                .csrf(AbstractHttpConfigurer::disable)// Disable CSRF for simplicity
-                .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/login", "register", "/logout", "/css/**", "/js/**", "/images/**").permitAll()
-                        .anyRequest().authenticated()
-                )
-                .formLogin(form -> form
-                        .loginPage("/login")
-                        .defaultSuccessUrl("/startseite", true)
-                        .permitAll() // Enable form-based login
 
-                )
-                .logout(logout -> logout
-                        .logoutUrl("/logout")
-                        .logoutSuccessUrl("/login?logout")
-                        .invalidateHttpSession(true)
-                        .clearAuthentication(true)
-                        .permitAll()
-                )
-                .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
-                        .maximumSessions(1)
-                        .expiredUrl("/login"))
-                .build();
-    }
 
     @Bean
     public UserDetailsService userDetailsService() {
@@ -65,18 +39,5 @@ public class WebSecurityConfig {
                 .orElseThrow(() -> new RuntimeException("User not found"));
     }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return NoOpPasswordEncoder.getInstance(); // Passwörter bleiben unverschlüsselt
-    }
-
-
-    public String getCurrentUser(){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.getPrincipal() instanceof UserDetails){
-            return ((UserDetails) authentication.getPrincipal()).getUsername();
-        }
-        return "Gast";
-    }
 
 }
