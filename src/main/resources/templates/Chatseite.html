@@ -108,8 +108,8 @@
         }
 
         .chat-message.user{
-            text-align: right;
-            color:#003366;
+            text-align: left;
+            color: navy;
         }
         .input-container{
             display: flex;
@@ -153,9 +153,11 @@
     <button class="logout" onclick="logout()">Logout</button>
     <div class="header">Chat</div>
     <div class="chat-container" id="chat-container">
-        <div th:each="message : ${messages}"
-             th:class="${message.sender == 'Gast' ? 'chat-message user' : 'chat-message'}"><span
-                th:text="${message.message}"></span></div>
+        <div th:each="message : ${messages}">
+
+            <span class="sender" th:text="${message.created_at + ' '+ message.sender +' : ' + message.message }"></span>
+
+        </div>
     </div>
     <div class="input-container">
         <form th:action="@{/sendMessage}" method="post"><textarea id="chat-input" name="message"
@@ -167,7 +169,7 @@
 <script>
         function logout() {
              alert("Du hast dich erfolgreich ausgeloggt!");
-                  window.location.href = "/login.html";    }
+                  window.location.href = "/login";    }
 </script>
 </body>
 </html>
