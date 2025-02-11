@@ -6,6 +6,7 @@ import com.example.pruefungsrechner.Repository.CustomerRepository;
 import com.example.pruefungsrechner.Service.CustomerService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +21,9 @@ public class LoginController {
 
     @Autowired
     private CustomerService customerService;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @GetMapping("/")
     public String home(HttpSession session) {
@@ -50,9 +54,17 @@ public class LoginController {
     @PostMapping("/register")
     public String register(@RequestParam String alias, @RequestParam String email, @RequestParam String password, Model model) {
         try {
-            customerRepository.save(Customer.builder().alias(alias).email(email).password(password).build());
-            return "redirect:/login"; // Erfolgreich registriert → Weiterleitung zur Login-Seite
-        } catch (Exception e) {
+
+            String hashedPassword = passwordEncoder.encode(password);
+            customerRepository.save(Customer.builder()
+                    .alias(alias)
+                    .email(email)
+                    .password(hashedPassword)
+                    .build());
+
+            return "redirect:/login"; //pop up mit success
+
+       } catch (Exception e) {
             model.addAttribute("error", "Invalid alias or password");
             return "login";
         }
