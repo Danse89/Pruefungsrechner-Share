@@ -24,6 +24,6 @@ public class ChatController {
     @PostMapping("/sendMessage")
     public String sendMessage(@ModelAttribute MessageForm message) {
         chatMessageService.createChatMessage(message);
-        return "redirect:/chatseite";
+        return "redirect:/Chatseite";
     }
 }

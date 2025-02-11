@@ -21,7 +21,7 @@ public class ProfileController {
     @Autowired
     private WebSecurityConfig webSecurityConfig;
 
-    @GetMapping("/Profile")
+    @GetMapping("/profile")
     public String profile(Model model) {
         Optional<Customer> customer = customerRepository.findByAlias(webSecurityConfig.getCurrentUser());
         String alias = "Benutzer123"; // Beispiel: aktuell eingeloggter Alias
@@ -38,6 +38,6 @@ public class ProfileController {
         model.addAttribute("currentDateTime", currentDateTime);
 
         // Die View "profile.html" (befindet sich üblicherweise unter src/main/resources/templates)
-        return "Profile";
+        return "profile";
     }
 }
