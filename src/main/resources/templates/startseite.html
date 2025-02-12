@@ -21,6 +21,8 @@
           background-color: #f4f4f4;
         }
         .sidebar {
+          position: relative; /* Damit der z-index funktioniert */
+          z-index: 1100;      /* Höher als das Trivia-Banner */
           width: 15%;
           background: linear-gradient(to bottom, #002a5c, #a5a5a5);
           color: white;
@@ -44,7 +46,6 @@
           background-color: #004080;
         }
         .sidebar .image-placeholder {
-
           height: 100px;
           background-color: #cce0ff;
           margin: 1rem;
@@ -55,7 +56,6 @@
           color: #003366;
           font-size: 0.9rem;
           font-weight: bold;
-
         }
         .main {
           flex: 1;
@@ -63,6 +63,8 @@
           display: flex;
           flex-direction: column;
           position: relative;
+          /* Platz am unteren Rand, damit Inhalte nicht vom Trivia-Banner überlappt werden */
+          margin-bottom: 120px;
         }
         .top-controls {
           display: flex;
@@ -114,6 +116,7 @@
           height: 250px;
           width: 750px;
           overflow: hidden;
+          position: relative;
         }
         .tile:hover {
           transform: scale(1.05);
@@ -121,8 +124,8 @@
         }
         .fileserverüberschrift {
           position: absolute;
-          top: 27%;
-          left: 31%;
+          top: 75px;
+          left: 135px;
           transform: translate(-50%, -50%);
           z-index: 1;
           font-family: workbench;
@@ -132,8 +135,8 @@
         }
         .prüfungsrechnerüberschrift {
           position: absolute;
-          top: 27%;
-          left: 73%;
+          top: 75px;
+          right: -87px;
           transform: translate(-50%, -50%);
           z-index: 1;
           font-family: workbench;
@@ -143,8 +146,8 @@
         }
         .chatübershrift {
           position: absolute;
-          top: 67%;
-          left: 29%;
+          top: 180px;
+          left: 75px;
           transform: translate(-50%, -50%);
           z-index: 1;
           font-family: workbench;
@@ -154,26 +157,32 @@
         }
         .profileüberschrift {
           position: absolute;
-          top: 67%;
-          left: 73%;
+          top: 181px;
+          right: -11px;
+          transform: translate(-50%, -50%);
+          z-index: 1;
           font-family: workbench;
           font-size: 35px;
           font-weight: bold;
           color: rgb(182, 184, 190);
         }
-        /* Neues CSS für das Trivia-Banner */
+        /* Neues CSS für den Trivia-Banner */
         .trivia-banner {
           position: fixed;
           bottom: 0;
-          left: 15%;
-          width: calc(100% - 15%);
+          left: 0; /* Hintergrund beginnt ganz links */
+          width: 100%; /* Hintergrund erstreckt sich über die gesamte Breite */
           background-color: #003366;
           color: white;
-          text-align: center;
           padding: 1rem;
           font-size: 1rem;
           box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
-          z-index: 1000;
+          z-index: 1000; /* niedriger als die Sidebar */
+        }
+        /* Innerer Container, der den Inhalt bündig mit dem Main-Bereich anzeigt */
+        .trivia-inner {
+          margin-left: 15%; /* Text bleibt links neben der Sidebar */
+          text-align: center;
         }
         .trivia-banner ul {
           list-style: none;
@@ -182,6 +191,18 @@
         }
         .trivia-banner li {
           margin: 0.3rem 0;
+        }
+        /* Styling für den Trivia-Header (zum Auf- und Zuklappen) */
+        #trivia-header {
+          cursor: pointer;
+          padding: 0.5rem;
+          background-color: #002a5c;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        }
+        #trivia-toggle-indicator {
+          font-size: 1.2rem;
         }
     </style>
 </head>
@@ -204,7 +225,6 @@
 </div>
 
 <div class="main">
-
     <!-- Obere Leiste mit Logout-Button und Wetteranzeige -->
     <div class="top-controls">
         <button class="logout" onclick="logoutUser()">Logout</button>
@@ -231,23 +251,31 @@
             <img src="/images/Chat.jpg" alt="Chat" style="max-height: 100%; max-width: 100%; object-fit: contain; border-radius: 10px;">
             <div class="tile-text chatübershrift">Chat</div>
         </div>
-
         <div class="tile" onclick="window.location.href='/profile'">
             <img th:src="@{/images/Profilbild.jpg}" alt="Profile" style="max-height: 100%; max-width: 100%; object-fit: contain; border-radius: 10px;">
-
             <div class="tile-text profileüberschrift">Profile</div>
         </div>
     </div>
 </div>
 
-<!-- Trivia-Banner am unteren Rand -->
-<div id="trivia-banner" class="trivia-banner">
-    <strong>Trivia Frage:</strong> <span id="trivia-question"></span>
-    <!-- Container für die Antwortoptionen -->
-    <div id="trivia-answers"></div>
-    <!-- Button, um die korrekte Antwort anzuzeigen -->
-    <button id="show-answer-btn" style="display:none;">Antwort anzeigen</button>
-    <div id="trivia-answer" style="display:none; font-style: italic;"></div>
+<!-- Trivia-Banner am unteren Rand – Hintergrund erstreckt sich über die gesamte Breite -->
+<div id="trivia-banner" class="trivia-banner" style="border-left-style: solid;border-left-width: 0px;right: 0px;margin-left: 320px;border-right-style: solid;padding-right: 574px;border-right-width: 6px;">
+    <div class="trivia-inner">
+        <div id="trivia-header" onclick="toggleTriviaContent()">
+            <strong>Trivia Frage:</strong> <span id="trivia-question"></span>
+            <span id="trivia-toggle-indicator">&#9660;</span>
+        </div>
+        <!-- Einklappbarer Bereich, in dem auch der Refresh-Button enthalten ist -->
+        <div id="trivia-content" style="display: none;">
+            <!-- Container für die Antwortoptionen -->
+            <div id="trivia-answers"></div>
+            <!-- Button, um die korrekte Antwort anzuzeigen -->
+            <button id="show-answer-btn" style="display:none;">Antwort anzeigen</button>
+            <div id="trivia-answer" style="display:none; font-style: italic;"></div>
+            <!-- Refresh-Button innerhalb des einklappbaren Bereichs -->
+            <button id="refresh-trivia-btn" onclick="refreshTrivia()">Neue Frage laden</button>
+        </div>
+    </div>
 </div>
 
 <script>
@@ -274,20 +302,16 @@
         .then(data => {
           if (data && data.results && data.results.length > 0) {
             const questionData = data.results[0];
-
             // HTML-Entitäten in Frage und Antworten decodieren
             const questionText = decodeHtml(questionData.question);
             const correctAnswer = decodeHtml(questionData.correct_answer);
             const incorrectAnswers = questionData.incorrect_answers.map(decodeHtml);
-
             // Alle Antwortoptionen zusammenführen und mischen
             let answers = incorrectAnswers.slice();
             answers.push(correctAnswer);
             answers = shuffle(answers);
-
             // Frage anzeigen
             document.getElementById('trivia-question').innerText = questionText;
-
             // Antwortoptionen in den Container einfügen
             const answersContainer = document.getElementById('trivia-answers');
             answersContainer.innerHTML = "";
@@ -298,7 +322,6 @@
               ul.appendChild(li);
             });
             answersContainer.appendChild(ul);
-
             // Button zum Aufdecken der korrekten Antwort einblenden
             const showAnswerBtn = document.getElementById('show-answer-btn');
             const answerDiv = document.getElementById('trivia-answer');
@@ -327,10 +350,11 @@
             .then(response => response.json())
             .then(data => {
               const weatherContainer = document.querySelector('.weather-container');
-              if (data && data.main && data.weather) {
+              if (data && data.main && data.weather && data.name) {
                 const temperature = data.main.temp;
                 const description = data.weather[0].description;
-                weatherContainer.innerHTML = `🌡️ Temperatur: ${temperature}°C<br>☁️ Wetter: ${description}`;
+                const location = data.name; // Ort aus API-Daten
+                weatherContainer.innerHTML = `📍 ${location}<br>🌡️ Temperatur: ${temperature}°C<br>☁️ Wetter: ${description}`;
               } else {
                 weatherContainer.innerHTML = "Keine Wetterdaten verfügbar.";
               }
@@ -346,15 +370,41 @@
       }
     }
 
-    // Beide Funktionen beim Laden der Seite aufrufen
+    // Funktion zum Umschalten des Trivia-Inhalts (auf/zu klappen)
+    function toggleTriviaContent() {
+      var content = document.getElementById("trivia-content");
+      var indicator = document.getElementById("trivia-toggle-indicator");
+      if (content.style.display === "none" || content.style.display === "") {
+        content.style.display = "block";
+        indicator.innerHTML = "&#9650;"; // Pfeil nach oben
+      } else {
+        content.style.display = "none";
+        indicator.innerHTML = "&#9660;"; // Pfeil nach unten
+      }
+    }
+
+    // Funktion zum Aktualisieren/Neuladen der Trivia-Daten
+    function refreshTrivia() {
+      // Verstecke die korrekte Antwort und den "Antwort anzeigen"-Button
+      document.getElementById('trivia-answer').style.display = 'none';
+      document.getElementById('trivia-answer').innerText = '';
+      document.getElementById('show-answer-btn').style.display = 'none';
+
+      // Lade neue Trivia-Daten
+      loadTriviaData();
+    }
+
+    // Beim Laden der Seite Wetter- und Trivia-Daten abrufen
     window.onload = function() {
       loadWeatherData();
       loadTriviaData();
     };
-            function logout() {
-             alert("Du hast dich erfolgreich ausgeloggt!");
-                  window.location.href = "/login";    }
 
+    // Alternativ: Falls du eine weitere Logout-Funktion benötigst
+    function logout() {
+      alert("Du hast dich erfolgreich ausgeloggt!");
+      window.location.href = "/login";
+    }
 </script>
 </body>
 </html>

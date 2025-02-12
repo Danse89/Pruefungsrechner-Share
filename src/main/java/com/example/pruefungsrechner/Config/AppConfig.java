@@ -1,4 +1,4 @@
-package com.example.pruefungsrechner.config;
+package com.example.pruefungsrechner.Config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
