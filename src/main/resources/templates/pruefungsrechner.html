@@ -63,18 +63,29 @@
           padding: 2rem;
           display: flex;
           flex-direction: column;
-          align-items: center;
           position: relative;
           margin-bottom: 120px;
         }
-        /* Button-Bereich */
-        .button-container {
+        /* Header */
+        .header {
           display: flex;
           justify-content: space-between;
-          width: 100%;
+          align-items: center;
+          font-size: 2.5rem;
+          font-weight: 700;
           margin-bottom: 1rem;
+          color: #003366;
+          font-family: "Space Mono", serif;
+          text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
         }
-        .button-container button {
+        .header .title {
+          flex: 1;
+          text-align: center;
+        }
+        /* Buttons */
+        .back-btn,
+        .logout,
+        .berechnebutton {
           padding: 0.5rem 1rem;
           background-color: #003366;
           color: white;
@@ -82,23 +93,16 @@
           border-radius: 5px;
           cursor: pointer;
           transition: background-color 0.3s;
+          font-size: 1rem;
         }
-        .button-container button:hover {
+        .back-btn:hover,
+        .logout:hover,
+        .berechnebutton:hover {
           background-color: #0055a5;
-        }
-        /* Header */
-        .header {
-          font-size: 4rem;
-          font-weight: 700;
-          margin: 1rem 0;
-          text-align: center;
-          color: #003366;
-          font-family: "Space Mono", serif;
-          text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
         }
         /* Formular-Container */
         .form-container {
-          width: 50vw;
+          width: 80vw;
           padding: 20px;
           background-color: #e6f0ff;
           border: 1px solid #003366;
@@ -133,16 +137,10 @@
         }
         .berechnebutton {
           padding: 10px 20px;
-          background-color: #003366;
-          color: white;
-          border: none;
-          border-radius: 8px;
-          cursor: pointer;
           font-size: 16px;
-          transition: background-color 0.3s, transform 0.2s;
+          transition: transform 0.2s;
         }
         .berechnebutton:hover {
-          background-color: #0055a5;
           transform: scale(1.05);
         }
         /* Fortschrittsbalken */
@@ -153,7 +151,7 @@
           border-radius: 15px;
           overflow: hidden;
           position: relative;
-          margin: 1rem 0;
+          margin: 1rem auto; /* Änderung hier */
         }
         .progress-bar {
           height: 100%;
@@ -168,17 +166,23 @@
           transition: width 0.5s ease-in-out;
         }
         /* Legende */
-        .legend {
-          display: flex;
-          flex-direction: column;
-          margin-top: 20px;
-          font-size: 14px;
-        }
-        .legend-item {
-          display: flex;
-          align-items: center;
-          margin-bottom: 5px;
-        }
+.legend {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Neu */
+  margin-top: 20px;
+  font-size: 20px;
+  width: fit-content; /* Neu */
+  margin-left: auto; /* Neu */
+  margin-right: auto; /* Neu */
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+  text-align: center; /* Neu */
+  justify-content: center; /* Neu */
+}
         .color-box {
           width: 20px;
           height: 20px;
@@ -203,13 +207,14 @@
     </div>
 </div>
 <div class="main">
-    <div class="button-container">
-        <button onclick="window.location.href='/startseite'">Startseite</button>
+    <div class="header">
+        <button class="back-btn" onclick="window.location.href='/startseite'">&#8592; Startseite</button>
+        <span class="title">Prüfungsrechner</span>
         <form th:action="@{/logout}" method="post">
-            <button type="submit">Logout</button>
+            <button class="logout" type="submit">Logout</button>
         </form>
     </div>
-    <div class="header">Prüfungsrechner</div>
+
     <form action="/pruefungsrechner/calculate" method="post" class="form-container">
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
         <div class="inputRow">
@@ -230,8 +235,8 @@
     </div>
     <div class="legend">
         <div class="legend-item">
-            <span class="color-box" style="background-color: #000000;"></span> 5,0 - 6,0 (Ungenügend) <span
-                class="percentage">0% - 29%</span>
+            <span class="color-box" style="background-color: #000000;"></span>
+            <span>5,0 - 6,0 (Ungenügend) <span class="percentage">0% - 29%</span></span>
         </div>
         <div class="legend-item">
             <span class="color-box" style="background-color: #ff0000;"></span> 5,0 - 6,0 (Mangelhaft) <span

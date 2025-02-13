@@ -3,14 +3,12 @@
 
 <head>
     <link href="https://fonts.googleapis.com/css2?family=Tektur:wght@400..900&family=Workbench&display=swapp" rel="stylesheet">
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Startseite</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap"
-          rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
     <style>
         /* Grundlegende CSS-Regeln */
         * {
@@ -74,9 +72,8 @@
         }
         .top-controls {
           display: flex;
-          justify-content: flex-end;
+          justify-content: space-between;
           align-items: center;
-          gap: 1200px;
           margin-bottom: 1rem;
         }
         .logout {
@@ -97,13 +94,14 @@
           color: #003366;
         }
         .header {
-          font-size: 4rem;
+          font-size: 4rem; /* Angepasst von 4rem auf 2rem */
           font-weight: 700;
-          margin: 1rem 0;
           text-align: center;
+          flex-grow: 1;
           font-family: "Space Mono", serif;
-          text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4); /* dezenter Schatten */
+          text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
           color: #003366;
+          margin: 1rem 0;
         }
         .tiles {
           display: grid;
@@ -249,57 +247,49 @@
 <div class="sidebar">
     <a href="https://www.mischok.academy/">Mischok Academy</a>
     <a href="https://www.mischok.de/">Mischok GmbH</a>
-    <a href="https://www.instagram.com/mischok.de/">Social Media</a>
     <a href="https://www.mischok.de/impressum">Mischok Impressum</a>
+    <a href="https://www.instagram.com/mischok.de/">Social Media</a>
 
     <div class="image-placeholder">
-        <img th:src="@{/images/Mischok.png}" alt="mischoklogo"
-             style="max-height: 100%; max-width: 100%; object-fit: contain; border-radius: 8px;">
+        <img th:src="@{/images/Mischok.png}" alt="mischoklogo" style="max-height: 100%; max-width: 100%; object-fit: contain; border-radius: 8px;">
     </div>
 </div>
 
 <div class="main">
-    <!-- Obere Leiste mit Logout-Button und Wetteranzeige -->
+    <!-- Obere Leiste mit Wetteranzeige, Header und Logout-Button -->
     <div class="top-controls">
         <div class="weather-container">
             🌡️ Temperatur: <span th:text="${temperature}">--</span>°C<br>
             ☁️ Wetter: <span th:text="${weatherDescription}">--</span>
         </div>
+        <div class="header">Startseite</div>
         <button class="logout" onclick="logoutUser()">Logout</button>
     </div>
 
-
-    <div class="header">Startseite</div>
-
     <div class="tiles">
         <div class="tile">
-            <img th:src="@{/images/FileServer.jpg}" alt="FileServer"
-                 style="max-height: 100%; max-width: 100%; object-fit: contain; border-radius: 10px;">
+            <img th:src="@{/images/FileServer.jpg}" alt="FileServer" style="max-height: 100%; max-width: 100%; object-fit: contain; border-radius: 10px;">
             <div>
                 <h1 class="fileserverüberschrift">FileServer</h1>
             </div>
         </div>
         <div class="tile" onclick="window.location.href='/pruefungsrechner'">
-            <img th:src="@{/images/Hindergrundbild.jpg}" alt="Hintergrundlogo"
-                 style="max-height: 100%; max-width: 100%; object-fit: contain; border-radius: 10px;">
+            <img th:src="@{/images/Hindergrundbild.jpg}" alt="Hintergrundlogo" style="max-height: 100%; max-width: 100%; object-fit: contain; border-radius: 10px;">
             <div class="tile-text prüfungsrechnerüberschrift">Prüfungsrechner</div>
         </div>
         <div class="tile" onclick="window.location.href='/Chatseite'">
-            <img src="/images/Chat.jpg" alt="Chat"
-                 style="max-height: 100%; max-width: 100%; object-fit: contain; border-radius: 10px;">
+            <img src="/images/Chat.jpg" alt="Chat" style="max-height: 100%; max-width: 100%; object-fit: contain; border-radius: 10px;">
             <div class="tile-text chatübershrift">Chat</div>
         </div>
         <div class="tile" onclick="window.location.href='/profile'">
-            <img th:src="@{/images/Profilbild.jpg}" alt="Profile"
-                 style="max-height: 100%; max-width: 100%; object-fit: contain; border-radius: 10px;">
-            <div class="tile-text profileüberschrift">Profile</div>
+            <img th:src="@{/images/Profilbild.jpg}" alt="Profile" style="max-height: 100%; max-width: 100%; object-fit: contain; border-radius: 10px;">
+            <div class="tile-text profileüberschrift">Benutzerprofil</div>
         </div>
     </div>
 </div>
 
 <!-- Trivia-Banner am unteren Rand -->
-<div id="trivia-banner" class="trivia-banner"
-     style="border-left-style: solid;border-left-width: 0px;right: 0px;margin-left: 320px;border-right-style: solid;padding-right: 574px;border-right-width: 0px;">
+<div id="trivia-banner" class="trivia-banner" style="border-left-style: solid;border-left-width: 0px;right: 0px;margin-left: 320px;border-right-style: solid;padding-right: 574px;border-right-width: 0px;">
     <div class="trivia-inner">
         <div id="trivia-header" onclick="toggleTriviaContent()">
             <strong>Trivia Frage:</strong> <span id="trivia-question"></span>
