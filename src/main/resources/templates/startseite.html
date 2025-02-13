@@ -19,6 +19,7 @@
           display: flex;
           height: 100vh;
           background-color: #f4f4f4;
+          overflow-x: hidden; /* Verhindert horizontales Scrollen */
         }
         .sidebar {
           position: relative; /* Damit der z-index funktioniert */
@@ -153,7 +154,7 @@
           font-family: workbench;
           font-size: 35px;
           font-weight: bold;
-          color: rgb(182, 184, 190);
+          color: rgb(61, 126, 64);
         }
         .profileüberschrift {
           position: absolute;
@@ -164,43 +165,47 @@
           font-family: workbench;
           font-size: 35px;
           font-weight: bold;
-          color: rgb(182, 184, 190);
+          color: rgb(26, 35, 126);
         }
         /* Neues CSS für den Trivia-Banner */
         .trivia-banner {
           position: fixed;
           bottom: 0;
-          left: 0; /* Hintergrund beginnt ganz links */
-          width: 100%; /* Hintergrund erstreckt sich über die gesamte Breite */
+          left: 0%; /* Sidebar-Breite berücksichtigen */
+          width: 80.5%; /* Passt sich dem restlichen Bereich an */
           background-color: #003366;
           color: white;
           padding: 1rem;
           font-size: 1rem;
           box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
-          z-index: 1000; /* niedriger als die Sidebar */
+          z-index: 1000;
+          border-radius: 10px; /* Abgerundete Ecken */
+          overflow: hidden;
         }
-        /* Innerer Container, der den Inhalt bündig mit dem Main-Bereich anzeigt */
+
         .trivia-inner {
-          margin-left: 15%; /* Text bleibt links neben der Sidebar */
-          text-align: center;
+          display: flex;
+          justify-content: center; /* Horizontal zentrieren */
+          align-items: center;     /* Vertikal zentrieren (geändert) */
+          height: 100%;           /* Volle Höhe nutzen */
+          width: 100%;            /* Volle Breite nutzen */
         }
+
         .trivia-banner ul {
           list-style: none;
           padding: 0;
           margin: 0.5rem 0;
         }
-        .trivia-banner li {
-          margin: 0.3rem 0;
-        }
-        /* Styling für den Trivia-Header (zum Auf- und Zuklappen) */
+
         #trivia-header {
-          cursor: pointer;
-          padding: 0.5rem;
-          background-color: #002a5c;
           display: flex;
-          justify-content: space-between;
-          align-items: center;
+          justify-content: center; /* Zentriert den Inhalt horizontal */
+          align-items: center;     /* Zentriert den Inhalt vertikal */
+          width: 100%;
+          text-align: center;
+          padding: 0.5rem 1rem;
         }
+
         #trivia-toggle-indicator {
           font-size: 1.2rem;
         }
@@ -243,7 +248,7 @@
                 <h1 class="fileserverüberschrift">FileServer</h1>
             </div>
         </div>
-        <div class="tile" onclick="window.location.href='/prüfungsrechner'">
+        <div class="tile" onclick="window.location.href='/pruefungsrechner'">
             <img th:src="@{/images/Hindergrundbild.jpg}" alt="Hintergrundlogo" style="max-height: 100%; max-width: 100%; object-fit: contain; border-radius: 10px;">
             <div class="tile-text prüfungsrechnerüberschrift">Prüfungsrechner</div>
         </div>
@@ -259,7 +264,7 @@
 </div>
 
 <!-- Trivia-Banner am unteren Rand – Hintergrund erstreckt sich über die gesamte Breite -->
-<div id="trivia-banner" class="trivia-banner" style="border-left-style: solid;border-left-width: 0px;right: 0px;margin-left: 320px;border-right-style: solid;padding-right: 574px;border-right-width: 6px;">
+<div id="trivia-banner" class="trivia-banner" style="border-left-style: solid;border-left-width: 0px;right: 0px;margin-left: 320px;border-right-style: solid;padding-right: 574px;border-right-width: 0px;">
     <div class="trivia-inner">
         <div id="trivia-header" onclick="toggleTriviaContent()">
             <strong>Trivia Frage:</strong> <span id="trivia-question"></span>
@@ -277,6 +282,8 @@
         </div>
     </div>
 </div>
+
+
 
 <script>
     // Funktion zum Mischen eines Arrays (Fisher-Yates)

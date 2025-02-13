@@ -7,6 +7,17 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&family=Workbench:wght@400;700&display=swap" rel="stylesheet">
     <style>
+        .background-image {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 100vh;  /* Höhe wird zur Breite nach Drehung */
+    height: 100vw; /* Breite wird zur Höhe nach Drehung */
+    object-fit: cover;
+    transform: translate(-50%, -50%) rotate(90deg);
+    z-index: -1;
+}
+
         body {
            display: flex;
            justify-content: center;
@@ -16,23 +27,10 @@
            margin: 0;
            position: relative;
            overflow: hidden;
+           background-size: cover;
+           background-position: center;
+           background-repeat: no-repeat;
        }
-
-body::before {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 100vh;
-    height: 100vw;
-    background-image: url('/images/Background.jpg'); /* Korrekt für Spring Boot */
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    transform: translate(-50%, -50%) rotate(90deg);
-    z-index: -1;
-}
-
 
        .form-wrapper {
            display: flex;
@@ -53,58 +51,67 @@ body::before {
            z-index: 1;
        }
 
-               .login-container h2 {
-                 text-align: center;
-                 margin-bottom: 1rem;
-                 color: #003366;
-                 font-family: 'Workbench', sans-serif;
-                 font-size: 1.8rem;
-               }
-               .input-field {
-                 width: 90%;
-                 padding: 0.8rem;
-                 margin-bottom: 1rem;
-                 border: 1px solid #003366;
-                 border-radius: 5px;
-                 transition: border-color 0.3s;
-               }
-               .input-field:focus {
-                 border-color: #0055a5;
-                 outline: none;
-               }
-               .login-button,
-               .register-button {
-                 width: 100%;
-                 padding: 0.8rem;
-                 border: none;
-                 border-radius: 5px;
-                 cursor: pointer;
-                 font-size: 1rem;
-                 transition: background-color 0.3s;
-               }
-               .login-button {
-                 background-color: #003366;
-                 color: white;
-               }
-               .login-button:hover {
-                 background-color: #0055a5;
-               }
-               .register-button {
-                 background-color: #0055a5;
-                 color: white;
-                 margin-top: 1rem;
-               }
-               .register-button:hover {
-                 background-color: #003366;
-               }
-               .error-message {
-                 color: red;
-                 text-align: center;
-                 margin-bottom: 1rem;
-               }
+       .login-container h2 {
+           text-align: center;
+           margin-bottom: 1rem;
+           color: #003366;
+           font-family: 'Workbench', sans-serif;
+           font-size: 1.8rem;
+       }
+
+       .input-field {
+           width: 90%;
+           padding: 0.8rem;
+           margin-bottom: 1rem;
+           border: 1px solid #003366;
+           border-radius: 5px;
+           transition: border-color 0.3s;
+       }
+
+       .input-field:focus {
+           border-color: #0055a5;
+           outline: none;
+       }
+
+       .login-button,
+       .register-button {
+           width: 100%;
+           padding: 0.8rem;
+           border: none;
+           border-radius: 5px;
+           cursor: pointer;
+           font-size: 1rem;
+           transition: background-color 0.3s;
+       }
+
+       .login-button {
+           background-color: #003366;
+           color: white;
+       }
+
+       .login-button:hover {
+           background-color: #0055a5;
+       }
+
+       .register-button {
+           background-color: #0055a5;
+           color: white;
+           margin-top: 1rem;
+       }
+
+       .register-button:hover {
+           background-color: #003366;
+       }
+
+       .error-message {
+           color: red;
+           text-align: center;
+           margin-bottom: 1rem;
+       }
     </style>
 </head>
-<body>
+
+<img src="/images/Background.jpg" class="background-image">
 <div class="form-wrapper">
     <div class="login-container">
         <h2>Login</h2>
@@ -126,11 +133,10 @@ body::before {
         </form>
     </div>
 </div>
-</body>
 
 <script>
     function redirectToRegister() {
-      window.location.href = "/register"; // URL anpassen, falls die Registrierungsseite woanders liegt
+        window.location.href = "/register"; // URL anpassen, falls die Registrierungsseite woanders liegt
     }
 </script>
 

@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pruefungsrechner</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            display: flex;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+
+        .sidebar {
+            width: 15%;
+            background: linear-gradient(to bottom, #002a5c, #a5a5a5);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            padding: 2rem 0;
+            border-top-right-radius: 5%;
+            justify-content: space-between;
+        }
+
+        .sidebar a {
+            text-decoration: none;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            margin-top: 1rem;
+            border-bottom: 1px solid #0055a5;
+        }
+
+        .sidebar a:hover {
+            background-color: #004080;
+        }
+
+        .sidebar .image-placeholder {
+            height: 100px;
+            background-color: #cce0ff;
+            margin: 1rem;
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #003366;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+
+        .main {
+            flex: 1;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .header {
+            font-size: 4rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: #003366;
+            text-align: center;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            padding: 1rem;
+        }
+
+        .button-container button {
+            padding: 0.5rem 1rem;
+            background-color: #003366;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .button-container button:hover {
+            background-color: #0055a5;
+        }
+
+        .form-container {
+            width: 50vw;
+            padding: 20px;
+            background-color: #0055a5;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .inputRow {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .field {
+            width: 200px;
+            height: 40px;
+            padding: 8px;
+            border: none;
+            border-radius: 8px;
+            background-color: #004080;
+            color: white;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        .berechnebutton {
+            padding: 10px 20px;
+            background-color: #003366;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .berechnebutton:hover {
+            background-color: #0055a5;
+            transform: scale(1.05);
+        }
+
+        .progress-container {
+            width: 50%;
+            height: 30px;
+            background-color: #ccc; /* Anfangs grauer Hintergrund */
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%; /* Initiale Breite 0% */
+            position: absolute;
+            top: 0;
+            left: 0;
+            text-align: center;
+            line-height: 30px;
+            color: white;
+            font-weight: bold;
+            transition: width 0.5s ease-in-out;
+        }
+
+        .legend {
+            display: flex;
+            flex-direction: column;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+
+        .color-box {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+            border-radius: 3px;
+        }
+
+        .percentage {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pruefungsrechner</title>
+    <style>
+        /* Dein CSS bleibt unverändert */
+    </style>
+</head>
+<body>
+<div class="sidebar">
+    <!-- Deine Sidebar bleibt unverändert -->
+</div>
+<div class="main">
+    <div class="button-container">
+        <button onclick="window.location.href='/startseite'">Startseite</button>
+        <form th:action="@{/logout}" method="post">
+            <button type="submit">Logout</button>
+        </form>
+    </div>
+    <div class="header">Prüfungsrechner</div>
+    <form action="/pruefungsrechner/calculate" method="post" class="form-container">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+        <div class="inputRow">
+            <input class="field" type="text" name="punktzahl1" placeholder="Abschlussprüfung Teil 1" required>
+            <input class="field" type="text" name="punktzahl2" placeholder="IT-Fachaufgaben" required>
+            <input class="field" type="text" name="punktzahl3" placeholder="Wirtschafts- und Sozialkunde" required>
+        </div>
+        <div class="inputRow">
+            <input class="field" type="text" name="punktzahl4" placeholder="Wirtschafts- und Sozialkunde" required>
+            <input class="field" type="text" name="punktzahl5" placeholder="Projektarbeit" required>
+            <input class="field" type="text" name="punktzahl6" placeholder="Fachgespräch" required>
+        </div>
+        <button class="berechnebutton" type="submit">Berechnen</button>
+    </form>
+    <h3>Ergebnis: <span id="result" th:text="${result}"></span></h3>
+    <div class="progress-container">
+        <div id="progressBar" class="progress-bar">0%</div>
+    </div>
+    <div class="legend">
+        <div class="legend-item">
+            <span class="color-box" style="background-color: #000000;"></span> 5,0 - 6,0 (Ungenügend) <span class="percentage">0% - 29%</span>
+        </div>
+        <div class="legend-item">
+            <span class="color-box" style="background-color: #ff0000;"></span> 5,0 - 6,0 (Mangelhaft) <span class="percentage">30% - 49%</span>
+        </div>
+        <div class="legend-item">
+            <span class="color-box" style="background-color: #ff8000;"></span> 4,0 - 4,9 (Ausreichend) <span class="percentage">50% - 66%</span>
+        </div>
+        <div class="legend-item">
+            <span class="color-box" style="background-color: #ffff00;"></span> 3,0 - 3,9 (Befriedigend) <span class="percentage">67% - 80%</span>
+        </div>
+        <div class="legend-item">
+            <span class="color-box" style="background-color: #80ff00;"></span> 2,0 - 2,9 (Gut) <span class="percentage">81% - 91%</span>
+        </div>
+        <div class="legend-item">
+            <span class="color-box" style="background-color: #00ff00;"></span> 1,0 - 1,9 (Sehr Gut) <span class="percentage">92% - 100%</span>
+        </div>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            function updateProgressBar(prozent, note) {
+                let progressBar = document.getElementById("progressBar");
+
+                // Begrenzung auf 0% bis 100%
+                prozent = Math.max(0, Math.min(100, prozent));
+
+                // Setze die Breite des Balkens gemäß dem Prozentsatz
+                progressBar.style.width = prozent + "%";
+                progressBar.textContent = Math.round(prozent) + "%";
+
+                // Dynamische Farbänderung je nach Note
+                let progressColor;
+                if (note >= 5) {
+                    progressColor = "#000000"; // Schwarz für ungenügend
+                } else if (note >= 4) {
+                    progressColor = "#ff0000"; // Rot für mangelhaft
+                } else if (note >= 3) {
+                    progressColor = "#ff8000"; // Orange für ausreichend
+                } else if (note >= 2) {
+                    progressColor = "#ffff00"; // Gelb für befriedigend
+                } else if (note >= 1) {
+                    progressColor = "#80ff00"; // Grün für gut
+                } else {
+                    progressColor = "#00ff00"; // Dunkelgrün für sehr gut
+                }
+
+                progressBar.style.backgroundColor = progressColor;
+            }
+
+            // Überprüfen, ob ein Ergebnis vorhanden ist und den Wert berechnen
+            let resultElement = document.getElementById("result");
+            if (resultElement && resultElement.textContent.trim() !== "") {
+                let resultText = resultElement.textContent.trim();
+
+                // IHK-Note extrahieren
+                let match = resultText.match(/IHK Note:\s*([\d,]+)/);
+                if (match) {
+                    let note = parseFloat(match[1].replace(",", "."));
+
+                    // Umrechnung von IHK-Noten auf Prozentwerte
+                    let prozent = ((6 - note) / 5) * 100;
+
+                    updateProgressBar(prozent, note);
+                }
+            }
+        });
+    </script>
+</body>
+</html>

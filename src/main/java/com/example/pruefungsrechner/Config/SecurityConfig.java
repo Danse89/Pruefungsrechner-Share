@@ -1,6 +1,5 @@
 package com.example.pruefungsrechner.Config;
 
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -10,8 +9,9 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 public class SecurityConfig {
+
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
@@ -19,13 +19,13 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/login", "/register").permitAll() // Login & Registrierung erlauben
+                        .requestMatchers("/login", "/register", "/images/**", "/css/**", "/js/**").permitAll() // 🚀 Statische Ressourcen freigeben
                         .anyRequest().authenticated()
                 )
                 .formLogin(login -> login
                         .loginPage("/login")
-                        .defaultSuccessUrl("/startseite", true) // ✅ Erfolgreich? → Startseite
-                        .failureUrl("/login?error=true") // ❌ Fehlgeschlagen? → Zurück zum Login
+                        .defaultSuccessUrl("/startseite", true)
+                        .failureUrl("/login?error=true")
                 )
                 .logout(logout -> logout
                         .logoutUrl("/logout")
@@ -34,5 +34,4 @@ public class SecurityConfig {
 
         return http.build();
     }
-
 }

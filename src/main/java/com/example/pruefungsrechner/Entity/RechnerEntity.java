@@ -22,4 +22,5 @@ public class RechnerEntity {
     private double punktzahl6;
     private double endnote;
     private boolean bestanden;
+    private String ihkNote;
 }

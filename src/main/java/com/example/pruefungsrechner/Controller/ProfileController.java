@@ -6,11 +6,14 @@ import java.util.Optional;
 
 import com.example.pruefungsrechner.Entity.Customer;
 import com.example.pruefungsrechner.Repository.CustomerRepository;
-import com.example.pruefungsrechner.WebSecurityConfig;
+import com.example.pruefungsrechner.Service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class ProfileController {
@@ -19,25 +22,42 @@ public class ProfileController {
     private CustomerRepository customerRepository;
 
     @Autowired
-    private WebSecurityConfig webSecurityConfig;
+    private CustomerService customerService;
 
     @GetMapping("/profile")
     public String profile(Model model) {
-        Optional<Customer> customer = customerRepository.findByAlias(webSecurityConfig.getCurrentUser());
-        String alias = "Benutzer123"; // Beispiel: aktuell eingeloggter Alias
-        String hashedPassword = "e99a18c428cb38d5f260853678922e03"; // Beispielhaft gehashter Passwort-String
+        String currentUser = customerService.getCurrentUser();
+        Optional<Customer> customer = customerRepository.findByAlias(currentUser);
 
-        // Aktuelles Datum und Uhrzeit im gewünschten Format (z.B. "31.01.2025 15:45:30")
+        if (customer.isPresent()) {
+            model.addAttribute("alias", customer.get().getAlias());
+            model.addAttribute("hashedPassword", customer.get().getPassword());
+        } else {
+            model.addAttribute("alias", "Unbekannt");
+            model.addAttribute("hashedPassword", "Nicht verfügbar");
+        }
+
+        // Aktuelles Datum und Uhrzeit
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
         String currentDateTime = now.format(formatter);
-
-        // Die Daten als Model-Attribute zur Verfügung stellen
-        model.addAttribute("alias", customer.get().getAlias());
-        model.addAttribute("hashedPassword", customer.get().getPassword());
         model.addAttribute("currentDateTime", currentDateTime);
 
-        // Die View "profile.html" (befindet sich üblicherweise unter src/main/resources/templates)
         return "profile";
+    }
+
+    @PostMapping("/change-password")
+    public String changePassword(@RequestParam String oldPassword,
+                                 @RequestParam String newPassword,
+                                 RedirectAttributes redirectAttributes) {
+        String currentUser = customerService.getCurrentUser();
+
+        if (customerService.changePassword(currentUser, oldPassword, newPassword)) {
+            redirectAttributes.addFlashAttribute("message", "Passwort erfolgreich geändert.");
+        } else {
+            redirectAttributes.addFlashAttribute("error", "Altes Passwort ist falsch.");
+        }
+
+        return "redirect:/profile";
     }
 }
