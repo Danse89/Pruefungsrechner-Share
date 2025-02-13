@@ -1,188 +1,235 @@
 <!DOCTYPE html>
 <html lang="de" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Benutzerprofil</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: Arial, sans-serif;
-    }
-    body {
-      display: flex;
-      height: 100vh;
-      background-color: #f4f4f4;
-    }
-    .sidebar {
-      width: 15%;
-      background: linear-gradient(to bottom, #002a5c, #a5a5a5);
-      color: white;
-      display: flex;
-      flex-direction: column;
-      align-items: stretch;
-      padding: 2rem 0;
-      border-top-right-radius: 5%;
-      justify-content: space-between;
-    }
-    .sidebar a {
-      text-decoration: none;
-      color: white;
-      padding: 1rem;
-      text-align: center;
-      margin-top: 1rem;
-      border-bottom: 1px solid #0055a5;
-    }
-    .sidebar a:hover {
-      background-color: #004080;
-    }
-    .main {
-      flex: 1;
-      padding: 2rem;
-      display: flex;
-      flex-direction: column;
-    }
-    .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 2rem;
-      font-weight: bold;
-      margin-bottom: 1rem;
-      color: #003366;
-      position: relative;
-    }
-    .header .title {
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-    }
-    .back-btn, .logout {
-      padding: 0.5rem 1rem;
-      background-color: #003366;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 1rem;
-    }
-    .back-btn:hover, .logout:hover {
-      background-color: #0055a5;
-    }
-    .profile-card {
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      padding: 1rem;
-      background-color: white;
-      margin-bottom: 1rem;
-    }
-    .profile-card h1 {
-      font-size: 2rem;
-      color: #003366;
-      text-align: center;
-      margin-bottom: 1rem;
-    }
-    .profile-info {
-      font-size: 1.2rem;
-      margin-bottom: 1rem;
-    }
-    .password-container {
-      display: flex;
-      align-items: center;
-      margin-bottom: 1rem;
-    }
-    .password-text {
-      font-family: monospace;
-      background: #e6f0ff;
-      padding: 10px;
-      border: 1px solid #003366;
-      border-radius: 5px;
-      flex: 1;
-      text-align: center;
-    }
-    .toggle-btn {
-      margin-left: 10px;
-      padding: 5px 10px;
-      border: none;
-      background: #003366;
-      color: #fff;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    .toggle-btn:hover {
-      background: #0055a5;
-    }
-    .error-message {
-      color: red;
-      font-weight: bold;
-      margin-bottom: 1rem;
-    }
-    .success-message {
-      color: green;
-      font-weight: bold;
-      margin-bottom: 1rem;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Benutzerprofil</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <style>
+        /* Grundlegende CSS-Regeln */
+        * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+          font-family: Arial, sans-serif;
+        }
+        body {
+          display: flex;
+          height: 100vh;
+          background-color: #f4f4f4;
+          overflow-x: hidden;
+        }
+        /* Sidebar */
+        .sidebar {
+          width: 15%;
+          background: linear-gradient(to bottom, #002a5c, #a5a5a5);
+          color: white;
+          display: flex;
+          flex-direction: column;
+          align-items: stretch;
+          padding: 2rem 0;
+          border-top-right-radius: 5%;
+          border-bottom-right-radius: 5%;
+          justify-content: space-between;
+        }
+        .sidebar a {
+          text-decoration: none;
+          color: white;
+          padding: 1rem;
+          text-align: center;
+          margin-top: 1rem;
+          border-bottom: 1px solid #0055a5;
+          transition: background-color 0.3s;
+        }
+        .sidebar a:hover {
+          background-color: #004080;
+        }
+        /* Logo-Platzhalter in der Sidebar */
+        .image-placeholder {
+          height: 100px;
+          background-color: #cce0ff;
+          margin: 1rem;
+          border-radius: 8px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          color: #003366;
+          font-size: 0.9rem;
+          font-weight: bold;
+        }
+        /* Hauptbereich */
+        .main {
+          flex: 1;
+          padding: 2rem;
+          display: flex;
+          flex-direction: column;
+          position: relative;
+          margin-bottom: 120px;
+        }
+        /* Header */
+        .header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          font-size: 2.5rem;
+          font-weight: 700;
+          margin-bottom: 1rem;
+          color: #003366;
+          font-family: "Space Mono", serif;
+          text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+        }
+        .header .title {
+          flex: 1;
+          text-align: center;
+        }
+        /* Buttons */
+        .back-btn,
+        .logout,
+        .toggle-btn,
+        form button[type="submit"] {
+          padding: 0.5rem 1rem;
+          background-color: #003366;
+          color: white;
+          border: none;
+          border-radius: 5px;
+          cursor: pointer;
+          transition: background-color 0.3s;
+          font-size: 1rem;
+        }
+        .back-btn:hover,
+        .logout:hover,
+        .toggle-btn:hover,
+        form button[type="submit"]:hover {
+          background-color: #0055a5;
+        }
+        /* Profil-Karte */
+        .profile-card {
+          border: 1px solid #003366;
+          border-radius: 10px;
+          padding: 1rem;
+          background-color: #e6f0ff;
+          margin-bottom: 1rem;
+          box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .profile-card h1 {
+          font-size: 2rem;
+          color: #003366;
+          text-align: center;
+          margin-bottom: 1rem;
+          font-family: "Space Mono", serif;
+        }
+        .profile-info {
+          font-size: 1.2rem;
+          margin-bottom: 1rem;
+          color: #003366;
+        }
+        /* Passwort-Anzeige */
+        .password-container {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          margin-bottom: 1rem;
+        }
+        .password-text {
+          font-family: monospace;
+          background: #ffffff;
+          padding: 10px;
+          border: 1px solid #003366;
+          border-radius: 5px;
+          flex: 1;
+          text-align: center;
+          color: #003366;
+        }
+        /* Formular für Passwortänderung */
+        form {
+          display: flex;
+          flex-direction: column;
+          gap: 0.5rem;
+        }
+        form label {
+          font-size: 1rem;
+          color: #003366;
+        }
+        form input[type="password"] {
+          padding: 0.5rem;
+          border: 1px solid #003366;
+          border-radius: 5px;
+          font-size: 1rem;
+          width: 100%;
+        }
+        /* Erfolg-/Fehlermeldungen */
+        .error-message {
+          color: red;
+          font-weight: bold;
+          margin-bottom: 1rem;
+        }
+        .success-message {
+          color: green;
+          font-weight: bold;
+          margin-bottom: 1rem;
+        }
+    </style>
 </head>
 <body>
 <div class="sidebar">
-  <a href="https://www.mischok.academy/">Mischok Academy</a>
-  <a href="https://www.mischok.de/">Mischok GmbH</a>
-  <a href="https://www.instagram.com/mischok.de/">Social Media</a>
-  <a href="https://www.mischok.de/impressum">Mischok Impressum</a>
+    <a href="https://www.mischok.academy/">Mischok Academy</a>
+    <a href="https://www.mischok.de/">Mischok GmbH</a>
+    <a href="https://www.instagram.com/mischok.de/">Social Media</a>
+    <a href="https://www.mischok.de/impressum">Mischok Impressum</a>
+    <div class="image-placeholder">
+        <img th:src="@{/images/Mischok.png}" alt="mischoklogo" style="max-height: 100%; max-width: 100%; object-fit: contain; border-radius: 8px;">
+    </div>
 </div>
 <div class="main">
-  <div class="header">
-    <button class="back-btn" onclick="goBack()">&#8592; Startseite</button>
-    <span class="title">Benutzerprofil</span>
-    <button class="logout" onclick="logout()">Logout</button>
-  </div>
-  <div class="profile-card">
-    <h1>Profil</h1>
-    <div class="profile-info">
-      <strong>Alias:</strong> <span th:text="${alias}">[Alias]</span>
+    <div class="header">
+        <button class="back-btn" onclick="goBack()">&#8592; Startseite</button>
+        <span class="title">Benutzerprofil</span>
+        <button class="logout" onclick="logout()">Logout</button>
     </div>
-    <div class="password-container">
-      <div id="hashedPassword" class="password-text">********</div>
-      <button id="toggleBtn" class="toggle-btn" onclick="togglePassword()">Passwort anzeigen</button>
+    <div class="profile-card">
+        <div class="profile-info">
+            <strong>Alias:</strong> <span th:text="${alias}">[Alias]</span>
+        </div>
+        <div class="password-container">
+            <div id="hashedPassword" class="password-text">********</div>
+            <button id="toggleBtn" class="toggle-btn" onclick="togglePassword()">Passwort anzeigen</button>
+        </div>
+        <div th:if="${message}" class="success-message">
+            <p th:text="${message}"></p>
+        </div>
+        <div th:if="${error}" class="error-message">
+            <p th:text="${error}"></p>
+        </div>
+        <form method="post" action="/change-password">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+            <label for="oldPassword">Altes Passwort:</label>
+            <input type="password" id="oldPassword" name="oldPassword" required>
+            <label for="newPassword">Neues Passwort:</label>
+            <input type="password" id="newPassword" name="newPassword" required>
+            <button type="submit">Passwort ändern</button>
+        </form>
     </div>
-    <div th:if="${message}" class="success-message"> <p th:text="${message}"></p> </div>
-    <div th:if="${error}" class="error-message"> <p th:text="${error}"></p> </div>
-    <form method="post" action="/change-password">
-      <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-
-      <label for="oldPassword">Altes Passwort:</label>
-      <input type="password" id="oldPassword" name="oldPassword" required>
-
-      <label for="newPassword">Neues Passwort:</label>
-      <input type="password" id="newPassword" name="newPassword" required>
-
-      <button type="submit">Passwort ändern</button>
-    </form>
-
-  </div>
 </div>
 <script>
-  function goBack() {
-    window.history.back();
-  }
-  function logout() {
-    alert("Du hast dich erfolgreich ausgeloggt!");
-    window.location.href = "/login";
-  }
-  function togglePassword() {
-    var pwd = document.getElementById('hashedPassword');
-    var btn = document.getElementById('toggleBtn');
-    if (pwd.textContent === '********') {
-      pwd.textContent = "Sicherheitshalber versteckt";
-      btn.textContent = 'Passwort verbergen';
-    } else {
-      pwd.textContent = '********';
-      btn.textContent = 'Passwort anzeigen';
+    function goBack() {
+      window.history.back();
     }
-  }
+    function logout() {
+      alert("Du hast dich erfolgreich ausgeloggt!");
+      window.location.href = "/login";
+    }
+    function togglePassword() {
+      var pwd = document.getElementById('hashedPassword');
+      var btn = document.getElementById('toggleBtn');
+      if (pwd.textContent === '********') {
+        pwd.textContent = "Sicherheitshalber versteckt";
+        btn.textContent = 'Passwort verbergen';
+      } else {
+        pwd.textContent = '********';
+        btn.textContent = 'Passwort anzeigen';
+      }
+    }
 </script>
 </body>
 </html>

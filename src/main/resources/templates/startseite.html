@@ -1,12 +1,16 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="de" xmlns:th="http://www.w3.org/1999/xhtml">
+
 <head>
+    <link href="https://fonts.googleapis.com/css2?family=Tektur:wght@400..900&family=Workbench&display=swapp" rel="stylesheet">
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Startseite</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&family=Workbench&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+          rel="stylesheet">
     <style>
         /* Grundlegende CSS-Regeln */
         * {
@@ -21,6 +25,7 @@
           background-color: #f4f4f4;
           overflow-x: hidden; /* Verhindert horizontales Scrollen */
         }
+        /* Sidebar (wie im Original) */
         .sidebar {
           position: relative; /* Damit der z-index funktioniert */
           z-index: 1100;      /* Höher als das Trivia-Banner */
@@ -58,20 +63,21 @@
           font-size: 0.9rem;
           font-weight: bold;
         }
+        /* Hauptbereich modernisiert */
         .main {
           flex: 1;
           padding: 2rem;
           display: flex;
           flex-direction: column;
           position: relative;
-          /* Platz am unteren Rand, damit Inhalte nicht vom Trivia-Banner überlappt werden */
-          margin-bottom: 120px;
+          margin-bottom: 120px; /* Platz für den Trivia-Banner */
         }
         .top-controls {
           display: flex;
           justify-content: flex-end;
           align-items: center;
-          gap: 20px;
+          gap: 1200px;
+          margin-bottom: 1rem;
         }
         .logout {
           padding: 0.5rem 1rem;
@@ -81,6 +87,7 @@
           border: none;
           border-radius: 5px;
           cursor: pointer;
+          transition: background-color 0.3s;
         }
         .logout:hover {
           background-color: #0055a5;
@@ -91,10 +98,12 @@
         }
         .header {
           font-size: 4rem;
-          font-weight: bold;
+          font-weight: 700;
           margin: 1rem 0;
-          color: #003366;
           text-align: center;
+          font-family: "Space Mono", serif;
+          text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4); /* dezenter Schatten */
+          color: #003366;
         }
         .tiles {
           display: grid;
@@ -123,6 +132,7 @@
           transform: scale(1.05);
           background-color: #cce0ff;
         }
+        /* Beibehaltene Schriftgestaltung der einzelnen Kacheln */
         .fileserverüberschrift {
           position: absolute;
           top: 75px;
@@ -133,6 +143,11 @@
           font-size: 35px;
           font-weight: bold;
           color: rgb(182, 184, 190);
+          text-shadow:
+            -2px -2px 0 black,
+             2px -2px 0 black,
+            -2px  2px 0 black,
+             2px  2px 0 black;
         }
         .prüfungsrechnerüberschrift {
           position: absolute;
@@ -144,6 +159,11 @@
           font-size: 35px;
           font-weight: bold;
           color: rgb(182, 184, 190);
+          text-shadow:
+            -2px -2px 0 black,
+             2px -2px 0 black,
+            -2px  2px 0 black,
+             2px  2px 0 black;
         }
         .chatübershrift {
           position: absolute;
@@ -154,7 +174,12 @@
           font-family: workbench;
           font-size: 35px;
           font-weight: bold;
-          color: rgb(61, 126, 64);
+          color: rgb(182, 184, 190);
+          text-shadow:
+            -2px -2px 0 black,
+             2px -2px 0 black,
+            -2px  2px 0 black,
+             2px  2px 0 black;
         }
         .profileüberschrift {
           position: absolute;
@@ -165,13 +190,18 @@
           font-family: workbench;
           font-size: 35px;
           font-weight: bold;
-          color: rgb(26, 35, 126);
+          color: rgb(182, 184, 190);
+          text-shadow:
+            -2px -2px 0 black,
+             2px -2px 0 black,
+            -2px  2px 0 black,
+             2px  2px 0 black;
         }
-        /* Neues CSS für den Trivia-Banner */
+        /* Trivia-Banner (leicht modernisiert, Position und Größenanpassung) */
         .trivia-banner {
           position: fixed;
           bottom: 0;
-          left: 0%; /* Sidebar-Breite berücksichtigen */
+          left: 0; /* Sidebar-Breite berücksichtigen */
           width: 80.5%; /* Passt sich dem restlichen Bereich an */
           background-color: #003366;
           color: white;
@@ -179,38 +209,35 @@
           font-size: 1rem;
           box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
           z-index: 1000;
-          border-radius: 10px; /* Abgerundete Ecken */
+          border-radius: 10px;
           overflow: hidden;
         }
-
         .trivia-inner {
           display: flex;
-          justify-content: center; /* Horizontal zentrieren */
-          align-items: center;     /* Vertikal zentrieren (geändert) */
-          height: 100%;           /* Volle Höhe nutzen */
-          width: 100%;            /* Volle Breite nutzen */
+          justify-content: center;
+          align-items: center;
+          height: 100%;
+          width: 100%;
         }
-
         .trivia-banner ul {
           list-style: none;
           padding: 0;
           margin: 0.5rem 0;
         }
-
         #trivia-header {
           display: flex;
-          justify-content: center; /* Zentriert den Inhalt horizontal */
-          align-items: center;     /* Zentriert den Inhalt vertikal */
+          justify-content: center;
+          align-items: center;
           width: 100%;
           text-align: center;
           padding: 0.5rem 1rem;
         }
-
         #trivia-toggle-indicator {
           font-size: 1.2rem;
         }
     </style>
 </head>
+
 <body>
 <script>
     function logoutUser() {
@@ -222,49 +249,57 @@
 <div class="sidebar">
     <a href="https://www.mischok.academy/">Mischok Academy</a>
     <a href="https://www.mischok.de/">Mischok GmbH</a>
-    <a href="https://www.mischok.de/impressum">Mischok Impressum</a>
     <a href="https://www.instagram.com/mischok.de/">Social Media</a>
+    <a href="https://www.mischok.de/impressum">Mischok Impressum</a>
+
     <div class="image-placeholder">
-        <img th:src="@{/images/Mischok.png}" alt="mischoklogo" style="max-height: 100%; max-width: 100%; object-fit: contain; border-radius: 8px;">
+        <img th:src="@{/images/Mischok.png}" alt="mischoklogo"
+             style="max-height: 100%; max-width: 100%; object-fit: contain; border-radius: 8px;">
     </div>
 </div>
 
 <div class="main">
     <!-- Obere Leiste mit Logout-Button und Wetteranzeige -->
     <div class="top-controls">
-        <button class="logout" onclick="logoutUser()">Logout</button>
         <div class="weather-container">
             🌡️ Temperatur: <span th:text="${temperature}">--</span>°C<br>
             ☁️ Wetter: <span th:text="${weatherDescription}">--</span>
         </div>
+        <button class="logout" onclick="logoutUser()">Logout</button>
     </div>
+
 
     <div class="header">Startseite</div>
 
     <div class="tiles">
         <div class="tile">
-            <img th:src="@{/images/FileServer.jpg}" alt="FileServer" style="max-height: 100%; max-width: 100%; object-fit: contain; border-radius: 10px;">
+            <img th:src="@{/images/FileServer.jpg}" alt="FileServer"
+                 style="max-height: 100%; max-width: 100%; object-fit: contain; border-radius: 10px;">
             <div>
                 <h1 class="fileserverüberschrift">FileServer</h1>
             </div>
         </div>
         <div class="tile" onclick="window.location.href='/pruefungsrechner'">
-            <img th:src="@{/images/Hindergrundbild.jpg}" alt="Hintergrundlogo" style="max-height: 100%; max-width: 100%; object-fit: contain; border-radius: 10px;">
+            <img th:src="@{/images/Hindergrundbild.jpg}" alt="Hintergrundlogo"
+                 style="max-height: 100%; max-width: 100%; object-fit: contain; border-radius: 10px;">
             <div class="tile-text prüfungsrechnerüberschrift">Prüfungsrechner</div>
         </div>
         <div class="tile" onclick="window.location.href='/Chatseite'">
-            <img src="/images/Chat.jpg" alt="Chat" style="max-height: 100%; max-width: 100%; object-fit: contain; border-radius: 10px;">
+            <img src="/images/Chat.jpg" alt="Chat"
+                 style="max-height: 100%; max-width: 100%; object-fit: contain; border-radius: 10px;">
             <div class="tile-text chatübershrift">Chat</div>
         </div>
         <div class="tile" onclick="window.location.href='/profile'">
-            <img th:src="@{/images/Profilbild.jpg}" alt="Profile" style="max-height: 100%; max-width: 100%; object-fit: contain; border-radius: 10px;">
+            <img th:src="@{/images/Profilbild.jpg}" alt="Profile"
+                 style="max-height: 100%; max-width: 100%; object-fit: contain; border-radius: 10px;">
             <div class="tile-text profileüberschrift">Profile</div>
         </div>
     </div>
 </div>
 
-<!-- Trivia-Banner am unteren Rand – Hintergrund erstreckt sich über die gesamte Breite -->
-<div id="trivia-banner" class="trivia-banner" style="border-left-style: solid;border-left-width: 0px;right: 0px;margin-left: 320px;border-right-style: solid;padding-right: 574px;border-right-width: 0px;">
+<!-- Trivia-Banner am unteren Rand -->
+<div id="trivia-banner" class="trivia-banner"
+     style="border-left-style: solid;border-left-width: 0px;right: 0px;margin-left: 320px;border-right-style: solid;padding-right: 574px;border-right-width: 0px;">
     <div class="trivia-inner">
         <div id="trivia-header" onclick="toggleTriviaContent()">
             <strong>Trivia Frage:</strong> <span id="trivia-question"></span>
@@ -282,8 +317,6 @@
         </div>
     </div>
 </div>
-
-
 
 <script>
     // Funktion zum Mischen eines Arrays (Fisher-Yates)
@@ -350,7 +383,7 @@
     // Funktion zum Abrufen der Wetterdaten
     function loadWeatherData() {
       if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function(position) {
+        navigator.geolocation.getCurrentPosition(function (position) {
           const latitude = position.coords.latitude;
           const longitude = position.coords.longitude;
           fetch(`/api/weather?latitude=${latitude}&longitude=${longitude}`)
@@ -369,7 +402,7 @@
             .catch(error => {
               console.error('Fehler beim Abrufen der Wetterdaten:', error);
             });
-        }, function(error) {
+        }, function (error) {
           console.error("Fehler bei der Ermittlung des Standorts:", error);
         });
       } else {
@@ -402,16 +435,17 @@
     }
 
     // Beim Laden der Seite Wetter- und Trivia-Daten abrufen
-    window.onload = function() {
+    window.onload = function () {
       loadWeatherData();
       loadTriviaData();
     };
 
-    // Alternativ: Falls du eine weitere Logout-Funktion benötigst
+    // Alternative Logout-Funktion (falls benötigt)
     function logout() {
       alert("Du hast dich erfolgreich ausgeloggt!");
       window.location.href = "/login";
     }
 </script>
 </body>
+
 </html>
